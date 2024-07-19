@@ -17,7 +17,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT;
-const allowedOrigins = ['https://businessleads.altrustservices.com']; // 'https://example2.com'];
+const allowedOrigins = ['http://businessleads.altrustservices.com']; // 'https://example2.com'];
 
 const corsOptions = {
   origin: function (origin, callback) {
