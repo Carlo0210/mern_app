@@ -1,0 +1,107 @@
+
+.EditIcon {
+    color: green;
+    font-size: 20px;
+    margin-right: 8px;
+  }
+  
+.DeleteIcon {
+    color: rgb(131, 4, 4);
+    font-size: 20px;
+    margin-right: 8px;
+  }
+  
+.LogoutIcon {
+    color: black;
+    font-size: 20px;
+    margin-right: 8px;
+  }
+
+  .item-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .label {
+    margin-left: 8px;
+  }
+  
+  .stroke-effect {
+    position: relative;
+    margin-right: 10px;
+  }
+
+  .login-link{
+    margin-left: 10px;
+  }
+  
+  .stroke-effect:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #cfcfcf;
+    height: 2px; /* Increase the height for a more visible stroke */
+    transition: width 0.3s ease; /* Add a transition for smooth animation */
+  }
+  
+  .stroke-effect:hover:after {
+    width: 100%;
+  }
+  .nav-center {
+    font-family: 'Arial', sans-serif;
+    color: #D8D5FF !important; /* Text color */
+    position: relative; /* Position relative for pseudo-element positioning */
+    margin-right: 20px; /* Add right margin */
+    background-color: #130f40;
+  }
+  .navbar-light .navbar-nav .nav-link {
+    color: #D8D5FF !important;
+  }
+  
+  .nav-center::after {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position the pseudo-element */
+    bottom: 0; /* Align to the bottom of the link */
+    left: 0; /* Initially set to left */
+    width: 0; /* Initially invisible */
+    height: 3px; /* Border thickness */
+    background-color: #D8D5FF; /* Border color */
+    transition: width 0.1s; /* Transition effect for width */
+    color: #D8D5FF !important; /* Text color */
+  
+  }
+  
+  .nav-center:hover::after {
+    color: #D8D5FF !important; /* Text color */
+    width: 100%; /* Width set to 100% on hover */
+    transition: width 0.3s; /* Transition effect for width */
+  }
+  .fill-effect {
+    transition: all 2s;
+  }
+  
+  .fill-effect:after {
+    text-align: left;
+    content: '.';
+    margin: 0;
+    opacity: 0;
+  }
+  
+  .fill-effect:hover {
+    color: #133664;
+    z-index: 1;
+  }
+  
+  .fill-effect:hover:after {
+    z-index: -10;
+    animation: fill 1s forwards;
+    -webkit-animation: fill 1s forwards;
+    -moz-animation: fill 1s forwards;
+    opacity: 1;
+  }
+  

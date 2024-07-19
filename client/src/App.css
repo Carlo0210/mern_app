@@ -1,0 +1,168 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #bdc3c7 !important;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+}
+
+/* App.css */
+.InteractiveToolsSearch__select__control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: #bdc3c7;
+  font-family: Rubik, sans-serif;
+  font-size: 16px;
+}
+
+.InteractiveToolsSearch__select__value-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.InteractiveToolsSearch__select__placeholder {
+  color: #999;
+}
+
+.InteractiveToolsSearch__select__input {
+  display: inline-block;
+  width: 2px;
+  background: 0px center;
+  border: 0px;
+  font-size: inherit;
+  opacity: 1;
+  outline: 0px;
+  padding: 0px;
+  color: inherit;
+}
+
+.InteractiveToolsSearch__select__indicators {
+  display: flex;
+  align-items: center;
+}
+
+.InteractiveToolsSearch__select__indicator-separator {
+  width: 1px;
+  background-color: #ccc;
+  margin: 0 5px;
+}
+
+.InteractiveToolsSearch__select__indicator-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* App.css */
+.Typeahead {
+  position: relative;
+}
+
+.Typeahead__input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: Rubik,
+}
+.input-field {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+/* Add this CSS to your CSS file or HTML <style> tag */
+.ToolsResultsRows {
+  margin-top: 20px;
+}
+
+.ToolResults_row {
+  border: 1px solid #CCCCCC;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.ToolResults_row:hover {
+  background-color: #F9F9F9;
+}
+
+.ToolResults_row_name h4 {
+  margin: 0;
+}
+
+.ToolResults_row_details {
+  padding-top: 5px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.caps {
+  text-transform: uppercase;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.provider-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.provider-card h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.provider-card p {
+  margin: 5px 0;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
