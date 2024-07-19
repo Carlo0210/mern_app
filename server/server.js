@@ -16,7 +16,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT||10000;
 const allowedOrigins = ['http://businessleads.altrustservices.com']; // 'https://example2.com'];
 
 const corsOptions = {
@@ -36,7 +36,7 @@ require('./connection')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'http://businessleads.altrustservices.com',
     methods: ['GET', 'POST', 'DELETE', 'PUT']
   }
 })
