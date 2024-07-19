@@ -17,7 +17,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT||10000;
-const allowedOrigins = ['http://businessleads.altrustservices.com']; // 'https://example2.com'];
+const allowedOrigins = ['http://businessleads.altrustservices.com', 'https://altrustservices.netlify.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -36,7 +36,7 @@ require('./connection')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'http://businessleads.altrustservices.com',
+    origin: 'https://altrustservices.netlify.app',
     methods: ['GET', 'POST', 'DELETE', 'PUT']
   }
 })
