@@ -9,7 +9,8 @@
     "scrapeProviderDetails": "node scrapeProviderDetails.js",
     "server": "npx nodemon server.js",
     "client": "cd frontend && npm start",
-    "dev": "concurrently \"npx nodemon server.js\" \"npm run client\""
+    "dev": "concurrently \"npx nodemon server.js\" \"npm run client\"",
+    "start": "node server.js"
   },
   "keywords": [
     "Web",
