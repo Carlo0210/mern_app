@@ -76,7 +76,7 @@ function ProviderSearch() {
         createdBy: 'Leo', // Adjust this as necessary
       };
   
-      await axios.post(`http://localhost:5000/apis/providers/${selectedProvider.npi}/notes`, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/apis/providers/${selectedProvider.npi}/notes`, {
         noteAttempts,
         noteText: note,
         metadata,
@@ -93,7 +93,7 @@ function ProviderSearch() {
   
   const fetchProviderNotes = async (npi) => {
     try {
-      const response = await axios.get(`http://localhost:5000/apis/providers/${npi}/notes`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/apis/providers/${npi}/notes`);
       setNote(response.data || []);
     } catch (err) {
       setError(err.response ? err.response.data.message : err.message);
@@ -121,13 +121,13 @@ function ProviderSearch() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const specialtiesResponse = await axios.get('http://localhost:5000/apis/specialties');
+        const specialtiesResponse = await axios.get('${process.env.REACT_APP_API_URL}/apis/specialties');
         setSpecialties(specialtiesResponse.data);
     
-        const statesResponse = await axios.get('http://localhost:5000/apis/states');
+        const statesResponse = await axios.get('${process.env.REACT_APP_API_URL}/apis/states');
         const stateCityMap = {};
         for (const state of statesResponse.data) {
-          const citiesResponse = await axios.get(`http://localhost:5000/apis/cities/${state}`);
+          const citiesResponse = await axios.get(`${process.env.REACT_APP_API_URL}/apis/cities/${state}`);
           stateCityMap[state] = citiesResponse.data;
         }
         setStatesAndCities(stateCityMap);
@@ -157,7 +157,7 @@ function ProviderSearch() {
   
       if (selectedState) {
         try {
-          const citiesResponse = await axios.get(`http://localhost:5000/apis/cities/${selectedState}`);
+          const citiesResponse = await axios.get(`${process.env.REACT_APP_API_URL}/apis/cities/${selectedState}`);
           const cities = citiesResponse.data;
           setStatesAndCities(prevState => ({
             ...prevState,
@@ -204,10 +204,10 @@ useEffect(() => {
     try {
       let response;
       if (searchParams.npi) {
-        response = await axios.get(`http://localhost:5000/apis/providers/${searchParams.npi}`);
+        response = await axios.get(`${process.env.REACT_APP_API_URL}/apis/providers/${searchParams.npi}`);
         setProviders([response.data]);
       } else {
-        response = await axios.get('http://localhost:5000/apis/providers', { params: searchParams });
+        response = await axios.get(`${process.env.REACT_APP_API_URL}/apis/providers`, { params: searchParams });
         setProviders(response.data);
       }
       setTotalPages(Math.ceil(response.data.length / itemsPerPage));
