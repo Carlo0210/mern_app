@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const userRoutes = require('./routes/userRoutes');
 const User = require('./models/User');
-const providerRoutes = require('./routes/providerRoutes');
 const providerServiceRoutes = require('./routes/providerServiceRoutes');
 const providerDetailsRoutes = require('./routes/providerDetailsRoutes');
 const combinedProviderRoutes = require('./routes/combinedProviderRoutes');
@@ -46,10 +45,9 @@ app.use(bodyParser.json({ limit: '1024mb' }));
 app.use(bodyParser.urlencoded({ limit: '1024mb', extended: true }));
 
 app.use('/users', userRoutes);
-app.use('/api', providerRoutes);
 app.use('/api', providerServiceRoutes);
 app.use('/api', providerDetailsRoutes);
-app.use('/apis', providerInformationRoutes);
+app.use('/api', providerInformationRoutes);
 app.use('/combined-provider', combinedProviderRoutes);
 
 
