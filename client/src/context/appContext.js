@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import React, { useState } from "react";
 
-const SOCKET_URL = `${process.env.REACT_APP_API_URL}`;
+const SOCKET_URL = `${process.env.REACT_APP_BACKEND_URL}`;
 export const socket = io(SOCKET_URL);
 
 // App context

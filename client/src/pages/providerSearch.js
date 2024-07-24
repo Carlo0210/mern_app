@@ -58,6 +58,9 @@ function ProviderSearch() {
   // eslint-disable-next-line
   const [error, setError] = useState(null);
 
+  const apiKey = process.env.REACT_APP_API_KEY;
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   // Close modal function
   const handleCloseModalListNotes = () => {
     setModalOpen(false);
@@ -76,10 +79,14 @@ function ProviderSearch() {
         createdBy: 'Leo', // Adjust this as necessary
       };
   
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/providers/${selectedProvider.npi}/notes`, {
+      await axios.post(`${backendUrl}/api/providers/${selectedProvider.npi}/notes`, {
         noteAttempts,
         noteText: note,
         metadata,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
       });
   
       setNote('');
@@ -93,7 +100,11 @@ function ProviderSearch() {
   
   const fetchProviderNotes = async (npi) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/providers/${npi}/notes`);
+      const response = await axios.get(`${backendUrl}/api/providers/${npi}/notes`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
       setNote(response.data || []);
     } catch (err) {
       setError(err.response ? err.response.data.message : err.message);
@@ -104,6 +115,7 @@ function ProviderSearch() {
     setSelectedProvider(provider);
     await fetchProviderNotes(provider.npi);
     setModalOpen(true);
+    // eslint-disable-next-line
   }, []);
 
   
@@ -121,13 +133,25 @@ function ProviderSearch() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const specialtiesResponse = await axios.get('${process.env.REACT_APP_API_URL}/api/specialties');
+        const specialtiesResponse = await axios.get(`${backendUrl}/api/specialties`, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
         setSpecialties(specialtiesResponse.data);
     
-        const statesResponse = await axios.get('${process.env.REACT_APP_API_URL}/api/states');
+        const statesResponse = await axios.get(`${backendUrl}/api/states`, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });;
         const stateCityMap = {};
         for (const state of statesResponse.data) {
-          const citiesResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/cities/${state}`);
+          const citiesResponse = await axios.get(`${backendUrl}/api/cities/${state}`, { 
+            headers: {
+              'Authorization': `Bearer ${apiKey}`
+            }
+          });
           stateCityMap[state] = citiesResponse.data;
         }
         setStatesAndCities(stateCityMap);
@@ -136,6 +160,7 @@ function ProviderSearch() {
       }
     };    
     fetchData();
+    // eslint-disable-next-line
   }, []);
   
 
@@ -157,7 +182,11 @@ function ProviderSearch() {
   
       if (selectedState) {
         try {
-          const citiesResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/cities/${selectedState}`);
+          const citiesResponse = await axios.get(`${backendUrl}/api/cities/${selectedState}`, { 
+            headers: {
+              'Authorization': `Bearer ${apiKey}`
+            }
+          });
           const cities = citiesResponse.data;
           setStatesAndCities(prevState => ({
             ...prevState,
@@ -204,10 +233,18 @@ useEffect(() => {
     try {
       let response;
       if (searchParams.npi) {
-        response = await axios.get(`${process.env.REACT_APP_API_URL}/api/providers/${searchParams.npi}`);
+        response = await axios.get(`${backendUrl}/api/providers/${searchParams.npi}`, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
         setProviders([response.data]);
       } else {
-        response = await axios.get(`${process.env.REACT_APP_API_URL}/api/providers`, { params: searchParams });
+        response = await axios.get(`${backendUrl}/api/providers`, { params: searchParams }, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
         setProviders(response.data);
       }
       setTotalPages(Math.ceil(response.data.length / itemsPerPage));

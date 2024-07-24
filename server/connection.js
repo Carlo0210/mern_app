@@ -1,17 +1,7 @@
 const mongoose = require('mongoose');
 
-async function connectToDatabase() {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI, {
-            // useNewUrlParser: true,
-            // useUnifiedTopology: true,
-            serverSelectionTimeoutMS: 5000,
-        });
-        console.log('Connected to the MongoDB');
-    } catch (error) {
-        console.error('Failed to connect to the MongoDB:', error);
-        throw error;
-    }
-}
+const mongoURI = 'mongodb://localhost:27017/cmsDBTest';
 
-connectToDatabase();
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));

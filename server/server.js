@@ -15,8 +15,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT||10000;
-const allowedOrigins = ['https://altrustservices.com']; //'https://altrustservices.netlify.app'];
+const PORT= process.env.PORT||5000;
+const allowedOrigins = ['http://localhost:3000']; //'https://altrustservices.netlify.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -35,7 +35,7 @@ require('./connection')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'https://altrustservices.com',
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'DELETE', 'PUT']
   }
 })
@@ -43,6 +43,7 @@ const io = require('socket.io')(server, {
 // Increase the body size limit
 app.use(bodyParser.json({ limit: '1024mb' }));
 app.use(bodyParser.urlencoded({ limit: '1024mb', extended: true }));
+
 
 app.use('/users', userRoutes);
 app.use('/api', providerServiceRoutes);
@@ -65,17 +66,6 @@ app.delete('/logout', async (req, res) => {
   }
 });
 
-// Handle user deletion using a more consistent endpoint
-app.delete('/users/:id', async (req, res) => {
-  try {
-    const userId = req.params.id;
-    await User.findByIdAndDelete(userId);
-    res.status(200).json({ message: 'User deleted successfully.' });
-  } catch (e) {
-    console.error(e);
-    res.status(400).json({ error: 'Failed to delete user.' });
-  }
-});
 
 app.get('/rooms', (req, res)=> {
   res.json(rooms)
@@ -120,14 +110,18 @@ app.delete('/users/:id', async (req, res) => {
 
 
 
-// Serve static files from the frontend build directory
-app.use(express.static(path.join(__dirname, '..','client/build')));
+// // Serve static files from the frontend build directory
+// app.use(express.static(path.join(__dirname, '..','client/build')));
 
-// Handle all other routes by sending the index.html file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-});
+// // Handle all other routes by sending the index.html file
+// app.get('*', authenticateAPIKey, (req, res) => {
+//   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+// });
+
+// app.get('/', authenticateAPIKey, (req, res) => {
+//     res.send('Hello World!');
+// });
 
 app.listen(PORT, async () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on ${PORT}`);
 });

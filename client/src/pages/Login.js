@@ -22,29 +22,11 @@ function Login() {
 
   function handleLogin(e) {
     e.preventDefault();
+  
     // login logic
-    loginUser({ email, password }).then(({ data }) => {
-      if (data) {
-        // Assuming the response contains the user type information, modify this according to your actual API response
-        const userType = data.userType; // Replace 'userType' with the actual field name in the API response
-
-        // Set the user type in state
-        setUserType(userType);
-
-        // Navigate based on the user type
-        switch (userType) {
-          case "Admin":
-            navigate("/search");
-            break;
-          case "User":
-            navigate("/search");
-            break;
-          default:
-            navigate("/"); // Navigate to the dashboard by default
-            break;
-        }
-      }
-    });
+    loginUser({ email, password })
+      .then(() => navigate('/search'))
+      .catch(error => console.error("Login failed:", error));
   }
 
   return (
