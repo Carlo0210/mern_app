@@ -125,3 +125,5 @@ app.delete('/users/:id', async (req, res) => {
 app.listen(PORT, async () => {
     console.log(`Server is running on ${PORT}`);
 });
+
+module.exports = app;
