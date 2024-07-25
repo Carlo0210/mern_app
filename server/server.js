@@ -29,7 +29,7 @@ const PORT= process.env.PORT||5000;
 //   optionsSuccessStatus: 200
 // };
 
-app(cors());
+app.use(cors());
 require('./connection')
 
 // Increase the body size limit
