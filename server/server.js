@@ -29,16 +29,8 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-app.use(cors(corsOptions));
+app(cors());
 require('./connection')
-
-const server = require('http').createServer(app);
-const io = require('socket.io')(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'DELETE', 'PUT']
-  }
-})
 
 // Increase the body size limit
 app.use(bodyParser.json({ limit: '1024mb' }));
