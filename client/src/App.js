@@ -13,7 +13,7 @@ function App() {
             return !user ? <Login /> : <Navigate to="/" />;
         };
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/businessleads">
             <div className="app">
                 <Navigation />
                 <div className="Main-Content">
