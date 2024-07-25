@@ -16,18 +16,18 @@ require('dotenv').config();
 
 const app = express();
 const PORT= process.env.PORT||5000;
-const allowedOrigins = ['http://localhost:3000']; //'https://altrustservices.netlify.app'];
+// const allowedOrigins = ['http://localhost:3000']; //'https://altrustservices.netlify.app'];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // Allow requests with no origin (like Postman)
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  optionsSuccessStatus: 200
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (allowedOrigins.indexOf(origin) !== -1 || !origin) { // Allow requests with no origin (like Postman)
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   optionsSuccessStatus: 200
+// };
 
 app(cors());
 require('./connection')
@@ -110,7 +110,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
 });
 
-app.listen(PORT, '0.0.0.0', async () => {
+app.listen(PORT, async () => {
     console.log(`Server is running on ${PORT}`);
 });
 
