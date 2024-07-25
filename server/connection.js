@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb://localhost:27017/cmsDBTest';
+const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))

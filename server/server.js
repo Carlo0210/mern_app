@@ -45,14 +45,14 @@ app.use(bodyParser.json({ limit: '1024mb' }));
 app.use(bodyParser.urlencoded({ limit: '1024mb', extended: true }));
 
 
-app.use('/users', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api', providerServiceRoutes);
 app.use('/api', providerDetailsRoutes);
 app.use('/api', providerInformationRoutes);
 app.use('/combined-provider', combinedProviderRoutes);
 
 
-app.delete('/logout', async (req, res) => {
+app.delete('/api/logout', async (req, res) => {
   try {
     const { _id, newMessages } = req.body;
     const user = await User.findById(_id);
@@ -67,11 +67,11 @@ app.delete('/logout', async (req, res) => {
 });
 
 
-app.get('/rooms', (req, res)=> {
+app.get('/api/rooms', (req, res)=> {
   res.json(rooms)
 })
 
-app.put('/users/:id', async (req, res) => {
+app.put('/api/:id', async (req, res) => {
   try {
     const userId = req.params.id;
     const updatedUser = req.body;
@@ -97,7 +97,7 @@ app.put('/users/:id', async (req, res) => {
 });
 
 // Add this route to handle user deletion
-app.delete('/users/:id', async (req, res) => {
+app.delete('/api/:id', async (req, res) => {
   try {
     const userId = req.params.id;
     await User.findByIdAndDelete(userId);
@@ -110,19 +110,15 @@ app.delete('/users/:id', async (req, res) => {
 
 
 
-// // Serve static files from the frontend build directory
-// app.use(express.static(path.join(__dirname, '..','client/build')));
+// Serve static files from the frontend build directory
+app.use(express.static(path.join(__dirname, '..','client', 'build')));
 
-// // Handle all other routes by sending the index.html file
-// app.get('*', authenticateAPIKey, (req, res) => {
-//   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-// });
+// Handle all other routes by sending the index.html file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
 
-// app.get('/', authenticateAPIKey, (req, res) => {
-//     res.send('Hello World!');
-// });
-
-app.listen(PORT, async () => {
+app.listen(PORT, '0.0.0.0', async () => {
     console.log(`Server is running on ${PORT}`);
 });
 

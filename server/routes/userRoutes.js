@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 
 // Creating a user
-router.post('/', async (req, res) => {
+router.post('/api/', async (req, res) => {
   try {
     let { userType, firstName, middleName, lastName, email, password, picture } = req.body;
 
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.post('/login', async(req, res)=> {
+router.post('/api/login', async(req, res)=> {
   try {
     const {email, password} = req.body;
     const user = await User.findByCredentials(email, password);

@@ -1,9 +1,12 @@
 import { io } from "socket.io-client";
 import React, { useState } from "react";
 
-const SOCKET_URL = `${process.env.REACT_APP_BACKEND_URL}`;
-export const socket = io(SOCKET_URL);
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
+export const socket = io(backendUrl, {
+  reconnectionAttempts: 3, // Try to reconnect up to 3 times
+  timeout: 5000, // Set a timeout of 5 seconds
+});
 // App context
 export const AppContext = React.createContext();
 
