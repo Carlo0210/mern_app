@@ -48,25 +48,22 @@ function ProviderSearch() {
   const [searchSubmitted, setSearchSubmitted] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
   const [currentRecordRange, setCurrentRecordRange] = useState({ start: 0, end: 0 });
-  // State for Notes Modal
   const [showModal, setShowModal] = useState(false);
   const [note, setNote] = useState('');
-  const [noteAttempts, setNoteAttempts] = useState('Default'); 
+  const [noteAttempts, setNoteAttempts] = useState('Default');
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  // eslint-disable-next-line
   const [error, setError] = useState(null);
-
+  const [notes, setNotes] = useState([]);
   const apiKey = process.env.REACT_APP_API_KEY;
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
-  // Close modal function
   const handleCloseModalListNotes = () => {
     setModalOpen(false);
     setSelectedProvider(null);
     setNote('');
   };
-  
+
   const handleAddNote = (provider) => {
     setSelectedProvider(provider);
     setShowModal(true);
@@ -75,38 +72,36 @@ function ProviderSearch() {
   const handleSaveNote = async () => {
     try {
       const metadata = {
-        createdBy: 'Leo', // Adjust this as necessary
+        createdBy: 'Leo',
       };
-  
+
       await axios.post(`${backendUrl}/providers/${selectedProvider.npi}/notes`, {
         noteAttempts,
         noteText: note,
         metadata,
       });
-  
+
       setNote('');
       setNoteAttempts('Default');
       setShowModal(false);
-      // Optionally, refresh provider data here
     } catch (error) {
       console.error('Error saving note:', error);
     }
   };
-  
+
   const fetchProviderNotes = async (npi) => {
     try {
       const response = await axios.get(`${backendUrl}/providers/${npi}/notes`);
-      setNote(response.data || []);
+      setNotes(response.data || []);
     } catch (err) {
       setError(err.response ? err.response.data.message : err.message);
     }
   };
-  
+
   const handleButtonClick = useCallback(async (provider) => {
     setSelectedProvider(provider);
     await fetchProviderNotes(provider.npi);
     setModalOpen(true);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -124,7 +119,7 @@ function ProviderSearch() {
       try {
         const specialtiesResponse = await axios.get(`${backendUrl}/specialties`);
         setSpecialties(specialtiesResponse.data);
-    
+
         const statesResponse = await axios.get(`${backendUrl}/states`);
         const stateCityMap = {};
         for (const state of statesResponse.data) {
@@ -135,11 +130,9 @@ function ProviderSearch() {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    };    
+    };
     fetchData();
-    // eslint-disable-next-line
   }, []);
-  
 
   useEffect(() => {
     if (searchParams.state && statesAndCities[searchParams.state]) {
@@ -156,7 +149,7 @@ function ProviderSearch() {
     if (name === 'state') {
       const selectedState = selectedOption ? selectedOption.value : '';
       setSearchParams({ ...searchParams, [name]: selectedState, city: '' });
-  
+
       if (selectedState) {
         try {
           const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
@@ -178,17 +171,14 @@ function ProviderSearch() {
 
   useEffect(() => {
     if (searchParams.state && statesAndCities[searchParams.state]) {
-      // Check if the selected city is valid for the newly selected state
       const selectedCity = searchParams.city;
       const validCities = statesAndCities[searchParams.state];
       if (selectedCity && validCities.includes(selectedCity)) {
-        // Preserve the selected city if it exists in the new state
         setSearchParams(prevParams => ({ ...prevParams }));
       } else {
-        // Reset city to empty if it's not valid for the new state
         setSearchParams(prevParams => ({ ...prevParams, city: '' }));
       }
-    }// eslint-disable-next-line
+    }
   }, [searchParams.state, statesAndCities]);
 
   const handleSubmit = async (e) => {
@@ -210,7 +200,7 @@ function ProviderSearch() {
       }
       setTotalPages(Math.ceil(response.data.length / itemsPerPage));
       setCurrentPage(1);
-      console.log('Fetched Providers:', response.data); // Debugging line
+      console.log('Fetched Providers:', response.data);
     } catch (error) {
       console.error('Error fetching providers:', error);
     }
@@ -241,12 +231,12 @@ function ProviderSearch() {
     })),
     { value: 'Others', label: 'Others' }
   ];
-  
+
   const cityOptions = searchParams.state && Array.isArray(statesAndCities[searchParams.state])
     ? statesAndCities[searchParams.state].map(city => ({
-        value: city,
-        label: city
-      }))
+      value: city,
+      label: city
+    }))
     : [];
 
   const goToPrevPage = () => {
@@ -565,8 +555,8 @@ function ProviderSearch() {
                       <p>No phone numbers available</p>
                     )}
                     {provider.notes && provider.notes.length > 0 ? (
-                      provider.notes.map((notes, index) => (
-                        <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
+                      provider.notes.map((note, index) => (
+                        <p key={index}><strong>Note attempt:</strong> {note.noteAttempts}</p>
                       ))
                     ) : (
                       <p>No notes available</p>
@@ -601,7 +591,6 @@ function ProviderSearch() {
           </div>
         </Col>
       </Row>
-      {/* Notes Modal */}
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
@@ -663,7 +652,7 @@ function ProviderSearch() {
           <Modal.Title >Notes for {selectedProvider?.providerName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {Array.isArray(note) && note.length > 0 ? (
+          {Array.isArray(notes) && notes.length > 0 ? (
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -675,7 +664,7 @@ function ProviderSearch() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {note.map((n, index) => (
+                  {notes.map((n, index) => (
                     <TableRow key={index}>
                       <TableCell className='text-center'><strong>{n.metadata.createdBy}</strong></TableCell>
                       <TableCell className='text-center'>{n.noteText}</TableCell>
