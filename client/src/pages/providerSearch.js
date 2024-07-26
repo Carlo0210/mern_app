@@ -29,6 +29,7 @@ const stateAbbreviations = {
   WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming'
 };
 
+
 function ProviderSearch() {
   const [searchParams, setSearchParams] = useState({
     providerName: '',
@@ -48,22 +49,25 @@ function ProviderSearch() {
   const [searchSubmitted, setSearchSubmitted] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
   const [currentRecordRange, setCurrentRecordRange] = useState({ start: 0, end: 0 });
+  // State for Notes Modal
   const [showModal, setShowModal] = useState(false);
-  const [note, setNote] = useState('');
-  const [noteAttempts, setNoteAttempts] = useState('Default');
+  const [note, setNote] = useState([]);
+  const [noteAttempts, setNoteAttempts] = useState('Default'); 
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  // eslint-disable-next-line
   const [error, setError] = useState(null);
-  const [notes, setNotes] = useState([]);
-  const apiKey = process.env.REACT_APP_API_KEY;
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
+  const apiKey = process.env.REACT_APP_API_KEY;
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
+  // Close modal function
   const handleCloseModalListNotes = () => {
     setModalOpen(false);
     setSelectedProvider(null);
     setNote('');
   };
-
+  
   const handleAddNote = (provider) => {
     setSelectedProvider(provider);
     setShowModal(true);
@@ -72,37 +76,41 @@ function ProviderSearch() {
   const handleSaveNote = async () => {
     try {
       const metadata = {
-        createdBy: 'Leo',
+        createdBy: 'Leo', // Adjust this as necessary
       };
-
+  
       await axios.post(`${backendUrl}/providers/${selectedProvider.npi}/notes`, {
         noteAttempts,
         noteText: note,
         metadata,
       });
-
+  
       setNote('');
       setNoteAttempts('Default');
       setShowModal(false);
+      // Optionally, refresh provider data here
     } catch (error) {
       console.error('Error saving note:', error);
     }
   };
-
+  
   const fetchProviderNotes = async (npi) => {
     try {
       const response = await axios.get(`${backendUrl}/providers/${npi}/notes`);
-      setNotes(response.data || []);
+      setNote(response.data || []);
     } catch (err) {
       setError(err.response ? err.response.data.message : err.message);
     }
   };
-
+  
   const handleButtonClick = useCallback(async (provider) => {
     setSelectedProvider(provider);
     await fetchProviderNotes(provider.npi);
     setModalOpen(true);
+    // eslint-disable-next-line
   }, []);
+
+  
 
   useEffect(() => {
     setTotalRecords(providers.length);
@@ -119,7 +127,7 @@ function ProviderSearch() {
       try {
         const specialtiesResponse = await axios.get(`${backendUrl}/specialties`);
         setSpecialties(specialtiesResponse.data);
-
+    
         const statesResponse = await axios.get(`${backendUrl}/states`);
         const stateCityMap = {};
         for (const state of statesResponse.data) {
@@ -130,9 +138,11 @@ function ProviderSearch() {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    };
+    };    
     fetchData();
+    // eslint-disable-next-line
   }, []);
+  
 
   useEffect(() => {
     if (searchParams.state && statesAndCities[searchParams.state]) {
@@ -149,7 +159,7 @@ function ProviderSearch() {
     if (name === 'state') {
       const selectedState = selectedOption ? selectedOption.value : '';
       setSearchParams({ ...searchParams, [name]: selectedState, city: '' });
-
+  
       if (selectedState) {
         try {
           const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
@@ -166,20 +176,27 @@ function ProviderSearch() {
       setSearchParams({ ...searchParams, [name]: selectedOption ? selectedOption.value : '' });
     }
   };
-
+  
+  
+  
   const [hasSearched, setHasSearched] = useState(false);
+// Inside ProviderSearch component
 
-  useEffect(() => {
-    if (searchParams.state && statesAndCities[searchParams.state]) {
-      const selectedCity = searchParams.city;
-      const validCities = statesAndCities[searchParams.state];
-      if (selectedCity && validCities.includes(selectedCity)) {
-        setSearchParams(prevParams => ({ ...prevParams }));
-      } else {
-        setSearchParams(prevParams => ({ ...prevParams, city: '' }));
-      }
+useEffect(() => {
+  if (searchParams.state && statesAndCities[searchParams.state]) {
+    // Check if the selected city is valid for the newly selected state
+    const selectedCity = searchParams.city;
+    const validCities = statesAndCities[searchParams.state];
+    if (selectedCity && validCities.includes(selectedCity)) {
+      // Preserve the selected city if it exists in the new state
+      setSearchParams(prevParams => ({ ...prevParams }));
+    } else {
+      // Reset city to empty if it's not valid for the new state
+      setSearchParams(prevParams => ({ ...prevParams, city: '' }));
     }
-  }, [searchParams.state, statesAndCities]);
+  }// eslint-disable-next-line
+}, [searchParams.state, statesAndCities]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -200,7 +217,6 @@ function ProviderSearch() {
       }
       setTotalPages(Math.ceil(response.data.length / itemsPerPage));
       setCurrentPage(1);
-      console.log('Fetched Providers:', response.data);
     } catch (error) {
       console.error('Error fetching providers:', error);
     }
@@ -231,13 +247,17 @@ function ProviderSearch() {
     })),
     { value: 'Others', label: 'Others' }
   ];
+  
+  
 
   const cityOptions = searchParams.state && Array.isArray(statesAndCities[searchParams.state])
-    ? statesAndCities[searchParams.state].map(city => ({
+  ? statesAndCities[searchParams.state].map(city => ({
       value: city,
       label: city
     }))
-    : [];
+  : [];
+
+
 
   const goToPrevPage = () => {
     if (currentPage > 1) {
@@ -342,7 +362,7 @@ function ProviderSearch() {
         const mailingPhone = phones.find(phone => phone.phoneType === 'Mailing');
         const primaryPhone = phones.find(phone => phone.phoneType === 'Primary');
         const faxNumber = faxes.length > 0 ? faxes[0].faxNumber : '';
-        const notesStr = notes.map(note => note.noteText).join("\n");
+        const noteStr = notes.find(note => note.noteText === noteAttempts.noteText);
         return [
           npi,
           providerName,
@@ -362,7 +382,7 @@ function ProviderSearch() {
           primaryPhone ? primaryPhone.phoneNumber : '',
           faxNumber,
           status,
-          notesStr
+          noteStr
         ].join(",");
       }).join("\n");
 
@@ -374,7 +394,16 @@ function ProviderSearch() {
     link.click();
     document.body.removeChild(link);
   };
-
+// eslint-disable-next-line
+  const filteredResults = currentResults.filter(provider => {
+    return provider.notes.some(note => {
+      if (noteAttempts === 'Default') {
+        return !note.noteAttempts; // Show if noteAttempts is empty
+      }
+      return note.noteAttempts === noteAttempts; // Match the selected noteAttempt
+    });
+  });
+  
   return (
     <Container style={{ marginTop: '30px' }}>
       <Row className="justify-content-center">
@@ -542,11 +571,11 @@ function ProviderSearch() {
           <p>{paginationSummary}</p>
 
           <div className="results">
-            {currentResults.map((provider) => (
-              <div key={provider._id} className="provider-card">
-                <Row>
-                  <Col md={5}>
-                    <h4>{provider.providerName}</h4>
+  {currentResults.map((provider) => (
+    <div key={provider._id} className="provider-card">
+      <Row>
+        <Col md={5}>
+        <h4>{provider.providerName}</h4>
                     {provider.phones && provider.phones.length > 0 ? (
                       provider.phones.map((phone, index) => (
                         <p key={index}><strong>{phone.phoneType} Phone:</strong> {phone.phoneNumber}</p>
@@ -584,107 +613,110 @@ function ProviderSearch() {
                       <FontAwesomeIcon icon={faClockRotateLeft} /> Activity Log
                     </p>
                   </Col>
-                </Row>
-                <pre>{JSON.stringify(provider, null, 2)}</pre> {/* Debugging line */}
-              </div>
-            ))}
-          </div>
+
+      </Row>
+    </div>
+  ))}
+</div>
         </Col>
       </Row>
+      {/* Notes Modal */}
       <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        centered
-        size="lg"
-        className="custom-modal"
+  show={showModal}
+  onHide={() => setShowModal(false)}
+  centered
+  size="lg"
+  className="custom-modal"
+>
+  <Modal.Header className='titleModal'>
+    <Modal.Title className="modal-title">
+      Add Notes for {selectedProvider?.providerName}
+    </Modal.Title>
+  </Modal.Header>
+  <Modal.Body className="modal-body">
+    <Form.Group controlId="noteAttempts" className="mt-3">
+      <Form.Label>Select Attempt</Form.Label>
+      <Form.Select
+        value={noteAttempts}
+        onChange={(e) => setNoteAttempts(e.target.value)}
+        className="mb-3"
       >
-        <Modal.Header className='titleModal'>
-          <Modal.Title className="modal-title">
-            Add Notes for {selectedProvider?.providerName}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-body">
-          <Form.Group controlId="noteAttempts" className="mt-3">
-            <Form.Label>Select Attempt</Form.Label>
-            <Form.Select
-              value={noteAttempts}
-              onChange={(e) => setNoteAttempts(e.target.value)}
-              className="mb-3"
-            >
-              <option value="Default">Default</option>
-              <option value="First Attempt">First Attempt</option>
-              <option value="Second Attempt">Second Attempt</option>
-              <option value="Third Attempt">Third Attempt</option>
-            </Form.Select>
-          </Form.Group>
+        <option value="Default">Default</option>
+        <option value="First Attempt">First Attempt</option>
+        <option value="Second Attempt">Second Attempt</option>
+        <option value="Third Attempt">Third Attempt</option>
+      </Form.Select>
+    </Form.Group>
 
-          <Form.Group controlId="note" className="mt-3">
-            <Form.Label>Notes</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={5}
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="Enter your notes here..."
-              className="note-input"
-              style={{ resize: 'none' }}
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer className="modal-footer">
-          <Button variant="outline-secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSaveNote}>
-            Save Note
-          </Button>
-        </Modal.Footer>
-      </Modal>
+    <Form.Group controlId="note" className="mt-3">
+      <Form.Label>Notes</Form.Label>
+      <Form.Control
+        as="textarea"
+        rows={5}
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        placeholder="Enter your notes here..."
+        className="note-input"
+        style={{ resize: 'none' }}
+      />
+    </Form.Group>
+  </Modal.Body>
+  <Modal.Footer className="modal-footer">
+    <Button variant="outline-secondary" onClick={() => setShowModal(false)}>
+      Close
+    </Button>
+    <Button variant="primary" onClick={handleSaveNote}>
+      Save Note
+    </Button>
+  </Modal.Footer>
+</Modal>
 
-      <Modal
-        show={modalOpen}
-        onHide={handleCloseModalListNotes}
-        centered
-        size="lg"
-        className="custom-modal"
-      >
-        <Modal.Header className='titleModal'>
-          <Modal.Title >Notes for {selectedProvider?.providerName}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {Array.isArray(notes) && notes.length > 0 ? (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell className='text-center'><strong>Created By</strong></TableCell>
-                    <TableCell className='text-center'><strong>Note Text</strong></TableCell>
-                    <TableCell className='text-center'><strong>Date</strong></TableCell>
-                    <TableCell className='text-center'><strong>Attempt</strong></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {notes.map((n, index) => (
-                    <TableRow key={index}>
-                      <TableCell className='text-center'><strong>{n.metadata.createdBy}</strong></TableCell>
-                      <TableCell className='text-center'>{n.noteText}</TableCell>
-                      <TableCell className='text-center'>{new Date(n.metadata.createDate).toLocaleDateString()}</TableCell>
-                      <TableCell className='text-center'>{n.noteAttempts || 'Default'}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <p className='text-center'><strong>No notes available.</strong></p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-secondary" onClick={handleCloseModalListNotes}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+<Modal
+  show={modalOpen}
+  onHide={handleCloseModalListNotes}
+  centered
+  size="lg"
+  className="custom-modal"
+>
+  <Modal.Header className='titleModal'>
+    <Modal.Title >Notes for {selectedProvider?.providerName}</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {Array.isArray(note) && note.length > 0 ? (
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className='text-center'><strong>Created By</strong></TableCell>
+              <TableCell className='text-center'><strong>Note Text</strong></TableCell>
+              <TableCell className='text-center'><strong>Date</strong></TableCell>
+              <TableCell className='text-center'><strong>Attempt</strong></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {note.map((n, index) => (
+              <TableRow key={index}>
+                <TableCell className='text-center'><strong>{n.metadata.createdBy}</strong></TableCell>
+                <TableCell className='text-center'>{n.noteText}</TableCell>
+                <TableCell className='text-center'>{new Date(n.metadata.createDate).toLocaleDateString()}</TableCell>
+                <TableCell className='text-center'>{n.noteAttempts || 'Default'}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    ) : (
+      <p className='text-center'><strong>No notes available.</strong></p>
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="outline-secondary" onClick={handleCloseModalListNotes}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
+
+
     </Container>
   );
 }
