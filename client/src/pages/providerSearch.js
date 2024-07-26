@@ -593,9 +593,9 @@ useEffect(() => {
                   </Col>
                   <Col md={4}>
                     {provider.addresses && provider.addresses.length > 0 ? (
-                      provider.addresses.map((address) => (
-                        <div key={address.addressID}>
-                          <p><strong>{address.addressType} Address:</strong></p>
+                      provider.addresses.map((address, index) => (
+                        <div key={index}>
+                          <p><strong>{index === 0 ? 'Mailing Address' : 'Primary Address'}:</strong></p>
                           <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
                         </div>
                       ))
@@ -613,7 +613,6 @@ useEffect(() => {
                       <FontAwesomeIcon icon={faClockRotateLeft} /> Activity Log
                     </p>
                   </Col>
-
       </Row>
     </div>
   ))}
