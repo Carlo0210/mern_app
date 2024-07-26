@@ -571,51 +571,51 @@ useEffect(() => {
           <p>{paginationSummary}</p>
 
           <div className="results">
-  {currentResults.map((provider) => (
-    <div key={provider._id} className="provider-card">
-      <Row>
-        <Col md={5}>
-        <h4>{provider.providerName}</h4>
-                    {provider.phones && provider.phones.length > 0 ? (
-                      provider.phones.map((phone, index) => (
-                        <p key={index}><strong>{phone.phoneType} Phone:</strong> {phone.phoneNumber}</p>
-                      ))
-                    ) : (
-                      <p>No phone numbers available</p>
-                    )}
-                    {provider.notes && provider.notes.length > 0 ? (
-                      provider.notes.map((note, index) => (
-                        <p key={index}><strong>Note attempt:</strong> {note.noteAttempts}</p>
-                      ))
-                    ) : (
-                      <p>No notes available</p>
-                    )}
-                  </Col>
-                  <Col md={4}>
-                    {provider.addresses && provider.addresses.length > 0 ? (
-                      provider.addresses.map((address, index) => (
-                        <div key={index}>
-                          <p><strong>{index === 0 ? 'Mailing Address' : 'Primary Address'}:</strong></p>
-                          <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No addresses available</p>
-                    )}
-                  </Col>
-                  <Col md={3}>
-                    <p><strong>Specialty:</strong> {provider.specialty}</p>
-                    <p><strong>NPI:</strong> {provider.npi}</p>
-                    <p title='Add notes' className='btnNote' onClick={() => handleAddNote(provider)}>
-                      <FontAwesomeIcon icon={faNoteSticky} /> Add notes
-                    </p>
-                    <p title='List' className='btnActivity' onClick={() => handleButtonClick(provider)}>
-                      <FontAwesomeIcon icon={faClockRotateLeft} /> Activity Log
-                    </p>
-                  </Col>
-      </Row>
-    </div>
-  ))}
+          {currentResults.map(provider => (
+      <div key={provider._id} className="provider-card">
+        <Row>
+          <Col md={5}>
+            <h4>{provider.providerName}</h4>
+            {provider.phones && provider.phones.length > 0 ? (
+              provider.phones.map((phone, index) => (
+                <p key={index}><strong>{phone.phoneType} Phone:</strong> {phone.phoneNumber}</p>
+              ))
+            ) : (
+              <p>No phone numbers available</p>
+            )}
+            {provider.notes && provider.notes.length > 0 ? (
+              provider.notes.map((note, index) => (
+                <p key={index}><strong>Note attempt:</strong> {note.noteAttempts}</p>
+              ))
+            ) : (
+              <p>No notes available</p>
+            )}
+          </Col>
+          <Col md={4}>
+            {provider.addresses && provider.addresses.length > 0 ? (
+              provider.addresses.map((address, index) => (
+                <div key={index}>
+                  <p><strong>{index === 0 ? 'Mailing Address' : 'Primary Address'}:</strong></p>
+                  <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
+                </div>
+              ))
+            ) : (
+              <p>No addresses available</p>
+            )}
+          </Col>
+          <Col md={3}>
+            <p><strong>Specialty:</strong> {provider.specialty}</p>
+            <p><strong>NPI:</strong> {provider.npi}</p>
+            <p title='Add notes' className='btnNote' onClick={() => handleAddNote(provider)}>
+              <FontAwesomeIcon icon={faNoteSticky} /> Add notes
+            </p>
+            <p title='List' className='btnActivity' onClick={() => handleButtonClick(provider)}>
+              <FontAwesomeIcon icon={faClockRotateLeft} /> Activity Log
+            </p>
+          </Col>
+        </Row>
+      </div>
+    ))}
 </div>
         </Col>
       </Row>
