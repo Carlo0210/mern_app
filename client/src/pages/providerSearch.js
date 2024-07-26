@@ -181,7 +181,6 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   
   const [hasSearched, setHasSearched] = useState(false);
 // Inside ProviderSearch component
-
 useEffect(() => {
   if (searchParams.state && statesAndCities[searchParams.state]) {
     // Check if the selected city is valid for the newly selected state
@@ -235,10 +234,13 @@ useEffect(() => {
     });
   };
 
-  const specialtyOptions = specialties.map(specialty => ({
+  const specialtyOptions = specialties
+  .map(specialty => ({
     value: specialty,
     label: specialty
-  }));
+  }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+
 
   const stateOptions = [
     ...Object.keys(stateAbbreviations).map(abbr => ({
@@ -256,8 +258,6 @@ useEffect(() => {
       label: city
     }))
   : [];
-
-
 
   const goToPrevPage = () => {
     if (currentPage > 1) {
