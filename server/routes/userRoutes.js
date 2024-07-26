@@ -1,35 +1,20 @@
-const router = require('express').Router();
-const User = require('../models/User');
+// routes/userRoutes.js
 
-// Creating a user
-router.post('/api', async (req, res) => {
-  try {
-    let { userType, firstName, middleName, lastName, email, password, picture } = req.body;
+const express = require('express');
+const {
+  createUser,
+  loginUser,
+  logoutUser,
+  updateUser,
+  deleteUser,
+} = require('../controllers/userController');
 
-    const newUser = new User({ userType, firstName, middleName, lastName, email, password, picture });
-    await newUser.save();
-    res.status(201).json({ message: 'User registered successfully.' });
-  } catch (e) {
-    if (e.code === 11000) {
-      res.status(400).json({ error: 'User already exists' });
-    } else {
-      console.error(e);
-      res.status(500).json({ error: 'Failed to register user.' });
-    }
-  }
-});
+const router = express.Router();
 
-
-router.post('/api/login', async(req, res)=> {
-  try {
-    const {email, password} = req.body;
-    const user = await User.findByCredentials(email, password);
-    await user.save();
-    res.status(200).json(user);
-  } catch (e) {
-      res.status(400).json(e.message)
-  }
-})
-
+router.post('/signup', createUser);
+router.post('/login', loginUser);
+router.delete('/logout', logoutUser);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;

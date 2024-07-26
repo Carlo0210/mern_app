@@ -1,7 +1,15 @@
+// connection.js
+
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const mongoURI = process.env.MONGODB_URI;
+const dbUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/cmsDB';
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+})
+.then(() => console.log('MongoDB connected'))
+.catch((err) => console.log('MongoDB connection error: ', err));

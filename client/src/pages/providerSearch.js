@@ -79,7 +79,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
         createdBy: 'Leo', // Adjust this as necessary
       };
   
-      await axios.post(`${backendUrl}/api/providers/${selectedProvider.npi}/notes`, {
+      await axios.post(`${backendUrl}/providers/${selectedProvider.npi}/notes`, {
         noteAttempts,
         noteText: note,
         metadata,
@@ -100,7 +100,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   
   const fetchProviderNotes = async (npi) => {
     try {
-      const response = await axios.get(`${backendUrl}/api/providers/${npi}/notes`, {
+      const response = await axios.get(`${backendUrl}/providers/${npi}/notes`, {
         headers: {
           'Authorization': `Bearer ${apiKey}`
         }
@@ -133,21 +133,21 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const specialtiesResponse = await axios.get(`${backendUrl}/api/specialties`, { 
+        const specialtiesResponse = await axios.get(`${backendUrl}/specialties`, { 
           headers: {
             'Authorization': `Bearer ${apiKey}`
           }
         });
         setSpecialties(specialtiesResponse.data);
     
-        const statesResponse = await axios.get(`${backendUrl}/api/states`, { 
+        const statesResponse = await axios.get(`${backendUrl}/states`, { 
           headers: {
             'Authorization': `Bearer ${apiKey}`
           }
         });;
         const stateCityMap = {};
         for (const state of statesResponse.data) {
-          const citiesResponse = await axios.get(`${backendUrl}/api/cities/${state}`, { 
+          const citiesResponse = await axios.get(`${backendUrl}/cities/${state}`, { 
             headers: {
               'Authorization': `Bearer ${apiKey}`
             }
@@ -182,7 +182,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   
       if (selectedState) {
         try {
-          const citiesResponse = await axios.get(`${backendUrl}/api/cities/${selectedState}`, { 
+          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`, { 
             headers: {
               'Authorization': `Bearer ${apiKey}`
             }
@@ -233,14 +233,14 @@ useEffect(() => {
     try {
       let response;
       if (searchParams.npi) {
-        response = await axios.get(`${backendUrl}/api/providers/${searchParams.npi}`, { 
+        response = await axios.get(`${backendUrl}/providers/${searchParams.npi}`, { 
           headers: {
             'Authorization': `Bearer ${apiKey}`
           }
         });
         setProviders([response.data]);
       } else {
-        response = await axios.get(`${backendUrl}/api/providers`, { params: searchParams }, { 
+        response = await axios.get(`${backendUrl}/providers`, { params: searchParams }, { 
           headers: {
             'Authorization': `Bearer ${apiKey}`
           }

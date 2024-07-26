@@ -1,45 +1,43 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// src/services/appApi.js
 
-// define a service user a base URL
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 const appApi = createApi({
-  reducerPath: "appApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BACKEND_URL}`,
-  }),
-
+  reducerPath: 'appApi',
+  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_BACKEND_URL}/users` }),
   endpoints: (builder) => ({
-    // creating the user
     signupUser: builder.mutation({
       query: (user) => ({
-        url: "/",
-        method: "POST",
+        url: '/signup',
+        method: 'POST',
         body: user,
       }),
     }),
-
-    // login
     loginUser: builder.mutation({
       query: (user) => ({
-        url: "/login",
-        method: "POST",
+        url: '/login',
+        method: 'POST',
         body: user,
       }),
     }),
-
-    // logout
     logoutUser: builder.mutation({
       query: (payload) => ({
-        url: "/logout",
-        method: "DELETE",
+        url: '/logout',
+        method: 'DELETE',
         body: payload,
       }),
-    }),    
-
-    // delete account
+    }),
+    updateUser: builder.mutation({
+      query: ({ id, ...user }) => ({
+        url: `/${id}`,
+        method: 'PUT',
+        body: user,
+      }),
+    }),
     deleteAccount: builder.mutation({
       query: (userId) => ({
         url: `/${userId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
   }),
@@ -49,8 +47,8 @@ export const {
   useSignupUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
+  useUpdateUserMutation,
   useDeleteAccountMutation,
 } = appApi;
 
 export default appApi;
-
