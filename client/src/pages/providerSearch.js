@@ -14,7 +14,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-
+import { useSelector } from "react-redux";
 const stateAbbreviations = {
   AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', AS: 'American Samoa',
   CA: 'California', CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia',
@@ -57,7 +57,7 @@ function ProviderSearch() {
   const [modalOpen, setModalOpen] = useState(false);
   // eslint-disable-next-line
   const [error, setError] = useState(null);
-
+  const user = useSelector((state) => state.user);
   const apiKey = process.env.REACT_APP_API_KEY;
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -76,7 +76,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const handleSaveNote = async () => {
     try {
       const metadata = {
-        createdBy: 'Leo', // Adjust this as necessary
+        createdBy: user.firstName, // Adjust this as necessary
       };
   
       await axios.post(`${backendUrl}/providers/${selectedProvider.npi}/notes`, {
