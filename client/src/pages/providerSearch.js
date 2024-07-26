@@ -58,6 +58,7 @@ function ProviderSearch() {
   // eslint-disable-next-line
   const [error, setError] = useState(null);
 
+  const apiKey = process.env.REACT_APP_API_KEY;
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   // Close modal function
@@ -82,6 +83,10 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
         noteAttempts,
         noteText: note,
         metadata,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
       });
   
       setNote('');
@@ -95,7 +100,11 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   
   const fetchProviderNotes = async (npi) => {
     try {
-      const response = await axios.get(`${backendUrl}/providers/${npi}/notes`);
+      const response = await axios.get(`${backendUrl}/providers/${npi}/notes`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
       setNote(response.data || []);
     } catch (err) {
       setError(err.response ? err.response.data.message : err.message);
@@ -124,13 +133,25 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const specialtiesResponse = await axios.get(`${backendUrl}/specialties`);
+        const specialtiesResponse = await axios.get(`${backendUrl}/specialties`, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
         setSpecialties(specialtiesResponse.data);
     
-        const statesResponse = await axios.get(`${backendUrl}/states`);;
+        const statesResponse = await axios.get(`${backendUrl}/states`, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });;
         const stateCityMap = {};
         for (const state of statesResponse.data) {
-          const citiesResponse = await axios.get(`${backendUrl}/cities/${state}`);
+          const citiesResponse = await axios.get(`${backendUrl}/cities/${state}`, { 
+            headers: {
+              'Authorization': `Bearer ${apiKey}`
+            }
+          });
           stateCityMap[state] = citiesResponse.data;
         }
         setStatesAndCities(stateCityMap);
@@ -161,7 +182,11 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   
       if (selectedState) {
         try {
-          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
+          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`, { 
+            headers: {
+              'Authorization': `Bearer ${apiKey}`
+            }
+          });
           const cities = citiesResponse.data;
           setStatesAndCities(prevState => ({
             ...prevState,
@@ -208,10 +233,18 @@ useEffect(() => {
     try {
       let response;
       if (searchParams.npi) {
-        response = await axios.get(`${backendUrl}/providers/${searchParams.npi}`);
+        response = await axios.get(`${backendUrl}/providers/${searchParams.npi}`, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
         setProviders([response.data]);
       } else {
-        response = await axios.get(`${backendUrl}/providers`, { params: searchParams });
+        response = await axios.get(`${backendUrl}/providers`, { params: searchParams }, { 
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
         setProviders(response.data);
       }
       setTotalPages(Math.ceil(response.data.length / itemsPerPage));
