@@ -1,26 +1,28 @@
 // eslint-disable-next-line
 import React, { useState } from "react";
-import { Nav, Navbar, Container, NavDropdown} from "react-bootstrap";
+import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaSignOutAlt } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/ALTRUST-light-1536x326.png";
-import { useLogoutUserMutation  } from "../services/appApi";
-import "./Navigation.css"
-import { useSelector } from "react-redux";
+import { useLogoutUserMutation } from "../services/appApi";
+import "./Navigation.css";
+import { useSelector, useDispatch } from "react-redux";
+import { clearUser } from "../features/userSlice"; // Import clearUser action
 
 function Navigation() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [logoutUser] = useLogoutUserMutation();
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   async function handleLogout(e) {
     e.preventDefault();
     await logoutUser(user);
-    // redirect to home page
-    window.location.replace("/");
+    dispatch(clearUser()); // Clear the user state
+    navigate("/"); // Redirect to home page
   }
-
 
   const isRegisterPath = location.pathname.startsWith("/register/");
 
@@ -46,7 +48,7 @@ function Navigation() {
                   </LinkContainer>
                 </>
               )}
-               {user && (
+              {user && (
                 <NavDropdown
                   title={
                     <>

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appApi from "./services/appApi";
 import providerApi from "./services/providerApi";
+import userReducer from "./features/userSlice";
 
 // persist our store
 import storage from "redux-persist/lib/storage";
@@ -10,6 +11,7 @@ import { thunk } from "redux-thunk";
 
 // reducers
 const reducer = combineReducers({
+    user: userReducer,
     [appApi.reducerPath]: appApi.reducer,
     [providerApi.reducerPath]: providerApi.reducer,
 });

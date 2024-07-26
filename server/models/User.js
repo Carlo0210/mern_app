@@ -37,33 +37,30 @@ const UserSchema = new mongoose.Schema({
   },
 }, { minimize: false });
 
-UserSchema.pre('save', function(next){
+UserSchema.pre('save', function(next) {
   const user = this;
-  if(!user.isModified('password')) return next();
+  if (!user.isModified('password')) return next();
 
-  bcrypt.genSalt(10, function(err, salt){
-    if(err) return next(err);
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) return next(err);
 
-    bcrypt.hash(user.password, salt, function(err, hash){
-      if(err) return next(err);
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) return next(err);
 
-      user.password = hash
+      user.password = hash;
       next();
-    })
+    });
+  });
+});
 
-  })
-
-})
-
-
-UserSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function() {
   const user = this.toObject();
   delete user.password;
   return user;
 };
 
-UserSchema.statics.findByCredentials = async function (email, password) {
-  const user = await User.findOne({ email });
+UserSchema.statics.findByCredentials = async function(email, password) {
+  const user = await this.findOne({ email });
   if (!user) throw new Error('Invalid email or password');
 
   const isMatch = await bcrypt.compare(password, user.password);
