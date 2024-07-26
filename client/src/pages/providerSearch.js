@@ -342,7 +342,8 @@ useEffect(() => {
       "Phone Mailing",
       "Phone Primary",
       "Fax Number",
-      "Status"
+      "Status",
+      "Notes"
     ].join(",");
 
     const csvContent = "data:text/csv;charset=utf-8," + headers + "\n" +
@@ -361,6 +362,7 @@ useEffect(() => {
         const mailingPhone = phones.find(phone => phone.phoneType === 'Mailing');
         const primaryPhone = phones.find(phone => phone.phoneType === 'Primary');
         const faxNumber = faxes.length > 0 ? faxes[0].faxNumber : '';
+        const notes = provider.notes.map(note => note.note).join("\n");
         return [
           npi,
           providerName,
@@ -379,7 +381,8 @@ useEffect(() => {
           mailingPhone ? mailingPhone.phoneNumber : '',
           primaryPhone ? primaryPhone.phoneNumber : '',
           faxNumber,
-          status
+          status,
+          notes
         ].join(",");
       }).join("\n");
 
