@@ -571,40 +571,40 @@ useEffect(() => {
           <p>{paginationSummary}</p>
 
           <div className="results">
-          {currentResults.map((provider) => (
-            <div key={provider._id} className="provider-card">
-              <Row>
-                <Col md={5}>
-                  <h4>{provider.providerName}</h4>
-                  {provider.phones && provider.phones.map((phone, index) => (
-                    <p key={index}><strong>{phone.phoneType} Phone:</strong> {phone.phoneNumber}</p>
-                  ))}
-                  {provider.notes && provider.notes.map((note, index) => (
-                    <p key={index}><strong>Note attempt:</strong> {note.noteAttempts}</p>
-                  ))}
-                </Col>
-                <Col md={4}>
-                  {provider.addresses && provider.addresses.map((address, index) => (
-                    <div key={index}>
-                      <p><strong>Address {index + 1}:</strong></p>
-                      <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
-                    </div>
-                  ))}
-                </Col>
-                <Col md={3}>
-                  <p><strong>Specialty:</strong> {provider.specialty}</p>
-                  <p><strong>NPI:</strong> {provider.npi}</p>
-                  <p title='Add notes' className='btnNote' onClick={() => handleAddNote(provider)}>
-                    <FontAwesomeIcon icon={faNoteSticky} /> Add notes
-                  </p>
-                  <p title='List' className='btnActivity' onClick={() => handleButtonClick(provider)}>
-                    <FontAwesomeIcon icon={faClockRotateLeft} /> Activity Log
-                  </p>
-                </Col>
-              </Row>
+  {currentResults.map((provider) => (
+    <div key={provider._id} className="provider-card">
+      <Row>
+        <Col md={5}>
+          <h4>{provider.providerName}</h4>
+          {provider.phones.map((phone, index) => (
+            <p key={index}><strong>{phone.phoneType} Phone:</strong> {phone.phoneNumber}</p>
+          ))}
+          {provider.notes.map((notes, index) => (
+            <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
+          ))}
+        </Col>
+        <Col md={4}>
+          {provider.addresses.map((address) => (
+            <div key={address.addressID}>
+              <p><strong>{address.addressType} Address:</strong></p>
+              <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
             </div>
           ))}
-        </div>
+        </Col>
+        <Col md={3}>
+          <p><strong>Specialty:</strong> {provider.specialty}</p>
+          <p><strong>NPI:</strong> {provider.npi}</p>
+          <p title='Add notes' className='btnNote' onClick={() => handleAddNote(provider)}>
+            <FontAwesomeIcon icon={faNoteSticky} /> Add notes
+          </p>
+          <p title='List' className='btnActivity' onClick={() => handleButtonClick(provider)}>
+            <FontAwesomeIcon icon={faClockRotateLeft} /> Activity Log
+          </p>
+        </Col>
+      </Row>
+    </div>
+  ))}
+</div>
         </Col>
       </Row>
       {/* Notes Modal */}
