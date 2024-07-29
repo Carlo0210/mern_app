@@ -403,6 +403,10 @@ const handleSubmit = async (e) => {
     });
   });
   
+  const addressLabels = {
+    1: 'Mailing',
+    2: 'Primary'
+  };
   return (
     <Container style={{ marginTop: '30px' }}>
       <Row className="justify-content-center">
@@ -582,16 +586,18 @@ const handleSubmit = async (e) => {
             <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
           ))}
         </Col>
-        <Col md={4}>
-          {provider.addresses.map((address) => (
-            <div key={address.addressID}>
-              <p><strong>Address:</strong></p>
-              <p>
-                {address.addressNo === 1 ? 'Mailing' : address.addressNo === 2 ? 'Primary' : 'Other'}: {address.city}, {address.state}, {address.zip}
-              </p>
-            </div>
-          ))}
-        </Col>
+
+
+<Col md={4}>
+  {provider.addresses.map((address) => (
+    <div key={address.addressID}>
+      <p>
+        <strong>Address: {addressLabels[address.addressNo] || 'Other'}</strong>
+      </p>
+      <p>{address.city}, {address.state}, {address.zip}</p>
+    </div>
+  ))}
+</Col>
 
         <Col md={3}>
           <p><strong>Specialty:</strong> {provider.specialty}</p>
