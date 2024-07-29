@@ -6,6 +6,7 @@ import {
   CDBSidebarHeader,
   CDBSidebarMenu,
   CDBSidebarMenuItem,
+  CDBSidebarSubMenu,
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
 import { useLogoutUserMutation } from "../services/appApi";
@@ -142,6 +143,24 @@ const Sidebar = () => {
             </NavLink>
 
           </CDBSidebarMenu>
+
+            <CDBSidebarMenu>
+                <CDBSidebarMenuItem icon="calendar">
+                  <NavLink exact to="/Calendar" activeClassName="activeClicked">
+                    Calendar
+                  </NavLink>
+                </CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="users">
+                  <NavLink exact to="/Users" activeClassName="activeClicked">
+                    Users
+                  </NavLink>
+                </CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="tasks">
+                  <NavLink exact to="/Tasks" activeClassName="activeClicked">
+                    Tasks
+                  </NavLink>
+                </CDBSidebarMenuItem>
+              </CDBSidebarMenu>
         </CDBSidebarContent>
         </>
       )}
