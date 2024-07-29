@@ -155,26 +155,36 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   };
 
   const handleSelectChange = async (selectedOption, { name }) => {
-    if (name === 'state') {
-      const selectedState = selectedOption ? selectedOption.value : '';
-      setSearchParams({ ...searchParams, [name]: selectedState, city: '' });
+    const selectedValue = selectedOption ? selectedOption.value : '';
   
-      if (selectedState) {
+    if (name === 'state') {
+      setSearchParams({ ...searchParams, [name]: selectedValue, city: '' });
+  
+      if (selectedValue === 'Others') {
+        // Handle 'Others' option
+        // This could involve setting a flag or fetching cities not in stateAbbreviations
+        setStatesAndCities(prevState => ({
+          ...prevState,
+          'Others': prevState['Others'] || []
+        }));
+      } else {
+        // Fetch cities for the selected state
         try {
-          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
+          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedValue}`);
           const cities = citiesResponse.data;
           setStatesAndCities(prevState => ({
             ...prevState,
-            [selectedState]: cities
+            [selectedValue]: cities
           }));
         } catch (error) {
           console.error('Error fetching cities:', error);
         }
       }
     } else {
-      setSearchParams({ ...searchParams, [name]: selectedOption ? selectedOption.value : '' });
+      setSearchParams({ ...searchParams, [name]: selectedValue });
     }
   };
+  
   
   
   
@@ -249,14 +259,12 @@ const handleSubmit = async (e) => {
     { value: 'Others', label: 'Others' }
   ];
   
-  
-
   const cityOptions = searchParams.state && Array.isArray(statesAndCities[searchParams.state])
-  ? statesAndCities[searchParams.state].map(city => ({
-      value: city,
-      label: city
-    }))
-  : [];
+    ? statesAndCities[searchParams.state].map(city => ({
+        value: city,
+        label: city
+      }))
+    : [];
 
   const goToPrevPage = () => {
     if (currentPage > 1) {
