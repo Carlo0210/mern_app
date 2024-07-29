@@ -212,8 +212,17 @@ const handleSubmit = async (e) => {
       setProviders([response.data]);
     } else {
       response = await axios.get(`${backendUrl}/providers`, { params: searchParams });
-      // Sort the providers alphabetically by name
-      const sortedProviders = response.data.sort((a, b) => a.name.localeCompare(b.name));
+      
+      // Sorting the providers alphabetically by name
+      const sortedProviders = response.data.sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+
       setProviders(sortedProviders);
     }
     setTotalPages(Math.ceil(response.data.length / itemsPerPage));
@@ -223,7 +232,6 @@ const handleSubmit = async (e) => {
   }
   setLoading(false);
 };
-
 
   const paginationSummary = hasSearched ? `Displaying ${currentRecordRange.start} - ${currentRecordRange.end} of ${totalRecords} records` : '';
 
