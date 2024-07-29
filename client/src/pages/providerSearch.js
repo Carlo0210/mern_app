@@ -592,7 +592,7 @@ const handleSubmit = async (e) => {
   {provider.addresses.map((address) => (
     <div key={address.addressID}>
       <p>
-        <strong>Address: {addressLabels[address.addressNo] || 'Other'}</strong>
+        <strong>Address: {addressLabels[address.addressID] || 'Other'}</strong>
       </p>
       <p>{address.city}, {address.state}, {address.zip}</p>
     </div>
