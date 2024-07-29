@@ -145,11 +145,6 @@ const Sidebar = () => {
           </CDBSidebarMenu>
 
             <CDBSidebarMenu>
-                <CDBSidebarMenuItem icon="calendar">
-                  <NavLink exact to="/Calendar" activeClassName="activeClicked">
-                    Calendar
-                  </NavLink>
-                </CDBSidebarMenuItem>
                 <CDBSidebarMenuItem icon="users">
                   <NavLink exact to="/Users" activeClassName="activeClicked">
                     Users
