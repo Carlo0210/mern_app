@@ -5,8 +5,9 @@ import {
   CDBSidebarFooter,
   CDBSidebarHeader,
   CDBSidebarMenu,
-  CDBSidebarMenuItem,
   CDBSidebarSubMenu,
+  CDBSidebarMenuItem,
+  
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
 import { useLogoutUserMutation } from "../services/appApi";
