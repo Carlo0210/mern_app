@@ -467,10 +467,10 @@ const handleSubmit = async (e) => {
                 />
               </Col>
               <Col md={1} className="text-center">
-                <Button variant="secondary" onClick={handleClear} style={{ marginTop: '30px', backgroundColor: '#133664', borderColor: '#133664', borderRadius: "25px" }}>Clear</Button>
+                <Button onClick={handleClear} style={{ marginTop: '30px', backgroundColor: '#133664', borderColor: '#133664', borderRadius: "25px" }}>Clear</Button>
               </Col>
               <Col md={1}>
-                <Button type="submit" style={{ marginTop: '30px', backgroundColor: '#133664', borderColor: '#133664', borderRadius: "25px" }}>Search</Button>
+                <Button  style={{ marginTop: '30px', backgroundColor: '#133664', borderColor: '#133664', borderRadius: "25px" }}>Search</Button>
               </Col>
             </Row>
           </Form>

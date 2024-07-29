@@ -19,7 +19,7 @@ function Topbar() {
       {/* SEARCH BAR */}
       <Box className="search-bar hidden-row">
         <form className="form">
-          <label htmlFor="search">
+          {/* <label htmlFor="search">
             <input className="input" type="text" value={searchValue} onChange={handleInputChange} required="" placeholder="Search" id="search" />
             {searchValue && (
               <button className="close-btn" type="reset" onClick={handleResetClick}>
@@ -32,7 +32,7 @@ function Topbar() {
             <div className="search">
               <SearchIcon viewBox="0 0 24 24" aria-hidden="true" />
             </div>
-          </label>
+          </label> */}
         </form>
       </Box>
       {/* ICONS */}

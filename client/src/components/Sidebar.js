@@ -105,7 +105,7 @@ const Sidebar = () => {
             
             {!minimizePicture && (
               <>
-                <h3>{user.name}</h3>
+                <h3>{user.firstName} {user.lastName}</h3>
                 <span>{user.userType}</span>
                 <button className="label-button" onClick={handleShowModal}>
                   <span className="label">Logout</span>
