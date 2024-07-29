@@ -594,7 +594,7 @@ const handleSubmit = async (e) => {
       <p>
         <strong>Address: {addressLabels[address.addressID] || 'Other'}</strong>
       </p>
-      <p>{address.city}, {address.state}, {address.zip}</p>
+      <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
     </div>
   ))}
 </Col>
