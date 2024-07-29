@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import botImg from '../assets/bot.jpeg';
 import { Col, Container, Form, Row } from 'react-bootstrap';
-import './RegistrationForm.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const RegisterForm = () => {
+const RegistrationForm = () => {
   const users = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     userType: '',
@@ -171,5 +170,5 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default RegistrationForm;
   
