@@ -331,11 +331,9 @@ useEffect(() => {
       "NPIType",
       "SoleProprietor",
       "Specialty",
-      "Mailing Street",
       "Mailing City",
       "Mailing State",
       "Mailing Zipcode",
-      "Primary Street",
       "Primary City",
       "Primary State",
       "Primary Zipcode",
@@ -349,13 +347,11 @@ useEffect(() => {
     const csvContent = "data:text/csv;charset=utf-8," + headers + "\n" +
       providers.map(provider => {
         const { npi, providerName, gender, npiType, soleProprietor, specialty, addresses, phones, faxes, status, notes } = provider;
-        const mailingAddress = addresses.find(address => address.addressType === 'Mailing');
-        const primaryAddress = addresses.find(address => address.addressType === 'Primary');
-        const mailingStreetStr = mailingAddress ? `${mailingAddress.addressNo}` : '';
+        const mailingAddress = addresses.find(address => address.addresses === 'Mailing');
+        const primaryAddress = addresses.find(address => address.addresses === 'Primary');
         const mailingCityStr = mailingAddress ? `${mailingAddress.city}` : '';
         const mailingStateStr = mailingAddress ? `${mailingAddress.state}` : '';
         const mailingZipCodeStr = mailingAddress ? `${mailingAddress.zip}` : '';
-        const primaryStreetStr = primaryAddress ? `${primaryAddress.addressNo}` : '';
         const primaryCityStr = primaryAddress ? `${primaryAddress.city}` : '';
         const primaryStateStr = primaryAddress ? `${primaryAddress.state}` : '';
         const primaryZipCodeStr = primaryAddress ? `${primaryAddress.zip}` : '';
@@ -370,11 +366,9 @@ useEffect(() => {
           npiType,
           soleProprietor,
           specialty,
-          mailingStreetStr,
           mailingCityStr,
           mailingStateStr,
           mailingZipCodeStr,
-          primaryStreetStr,
           primaryCityStr,
           primaryStateStr,
           primaryZipCodeStr,
@@ -577,7 +571,7 @@ useEffect(() => {
         <Col md={5}>
           <h4>{provider.providerName}</h4>
           {provider.phones.map((phone, index) => (
-            <p key={index}><strong>{phone.phoneType} Phone:</strong> {phone.phoneNumber}</p>
+            <p key={index}><strong>Phone:</strong> {phone.phoneNumber}</p>
           ))}
           {provider.notes.map((notes, index) => (
             <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
@@ -586,7 +580,7 @@ useEffect(() => {
         <Col md={4}>
           {provider.addresses.map((address) => (
             <div key={address.addressID}>
-              <p><strong>{address.addressType} Address:</strong></p>
+              <p><strong>Address:</strong></p>
               <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
             </div>
           ))}
