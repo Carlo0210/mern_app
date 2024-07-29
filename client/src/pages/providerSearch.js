@@ -418,17 +418,13 @@ const handleSubmit = async (e) => {
     // Ensure 'Primary' (2) comes before 'Mailing' (1)
     if (a.addressID === 2) return -1;
     if (b.addressID === 2) return 1;
-    if (a.addressID === 1) return 1;
-    if (b.addressID === 1) return -1;
-    return 2; // Keeps other addresses in their original order
+    return 0; // Keeps other addresses in their original order
   });
   const sortedPhones = providers.phones.sort((a, b) => {
     // Define your sorting logic based on phoneType or other criteria
     if (a.phoneType === 2) return -1; // Primary (2) comes first
     if (b.phoneType === 2) return 1;
-    if (a.phoneType === 1) return 1; // Mailing (1) comes after Primary (2)
-    if (b.phoneType === 1) return -1;
-    return 2; // Keeps other phones in their original order
+    return 0; // Keeps other phones in their original order
   });
   return (
     <Container style={{ marginTop: '30px' }}>
