@@ -58,7 +58,6 @@ function ProviderSearch() {
   // eslint-disable-next-line
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
-  const apiKey = process.env.REACT_APP_API_KEY;
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   // Close modal function
@@ -212,18 +211,7 @@ const handleSubmit = async (e) => {
       setProviders([response.data]);
     } else {
       response = await axios.get(`${backendUrl}/providers`, { params: searchParams });
-      
-      // Sorting the providers alphabetically by name
-      const sortedProviders = response.data.sort((a, b) => {
-        const nameA = a.name.toLowerCase();
-        const nameB = b.name.toLowerCase();
-        
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
-        return 0;
-      });
-
-      setProviders(sortedProviders);
+      setProviders(response.data);
     }
     setTotalPages(Math.ceil(response.data.length / itemsPerPage));
     setCurrentPage(1);
