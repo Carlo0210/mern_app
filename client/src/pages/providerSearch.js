@@ -402,28 +402,26 @@ const handleSubmit = async (e) => {
       return note.noteAttempts === noteAttempts; // Match the selected noteAttempt
     });
   });
-
   
   const addressLabels = {
     1: 'Mailing',
     2: 'Primary'
   };
 
-  const phoneLabels = {
-    1: 'Mailing',
-    2: 'Primary'
-  };
-  
   const sortedAddresses = providers.addresses.sort((a, b) => {
     // Ensure 'Primary' (2) comes before 'Mailing' (1)
     if (a.addressID === 2) return -1;
     if (b.addressID === 2) return 1;
+    if (a.addressID === 1) return 1;
+    if (b.addressID === 1) return -1;
     return 0; // Keeps other addresses in their original order
   });
   const sortedPhones = providers.phones.sort((a, b) => {
     // Define your sorting logic based on phoneType or other criteria
     if (a.phoneType === 2) return -1; // Primary (2) comes first
     if (b.phoneType === 2) return 1;
+    if (a.phoneType === 1) return 1; // Mailing (1) comes after Primary (2)
+    if (b.phoneType === 1) return -1;
     return 0; // Keeps other phones in their original order
   });
   return (
@@ -598,11 +596,10 @@ const handleSubmit = async (e) => {
       <Row>
         <Col md={5}>
           <h4>{provider.providerName}</h4>
-
-  <strong>Phone </strong>
-  {sortedPhones.map((phone, index) => (
-    <p key={index}><strong>{phoneLabels[phone.phoneType] || 'Other'}</strong> {phone.phoneNumber}</p>
-  ))}
+          <strong>Phone </strong>
+          {provider.phones.map((phone, index) => (
+            <p key={index}><strong>{phone.phoneType}</strong> {phone.phoneNumber}</p>
+          ))}
           {provider.notes.map((notes, index) => (
             <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
           ))}
