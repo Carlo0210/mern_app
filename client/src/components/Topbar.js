@@ -15,7 +15,7 @@ function Topbar() {
   };
 
   return (
-    <Box className="topbar" textColor="#fff" backgroundColor="#333" display="flex" justifyContent="space-between" p={2}>
+    <Box className="topbar" textColor="#fff" backgroundColor="#133664" display="flex" justifyContent="space-between" p={2}>
       {/* SEARCH BAR */}
       <Box className="search-bar hidden-row">
         <form className="form">

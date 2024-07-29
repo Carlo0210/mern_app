@@ -83,7 +83,7 @@ const Sidebar = () => {
 
   return (
     <div style={{ display: 'flex', overflow: 'scroll initial' }}>
-      <CDBSidebar textColor="#fff" backgroundColor="#333">
+      <CDBSidebar textColor="#fff" backgroundColor="#133664">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" onClick={() => setMinimizePicture(!minimizePicture)}></i>}>
           Main Menu
         </CDBSidebarHeader>
