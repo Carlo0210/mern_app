@@ -128,24 +128,26 @@ const RegistrationForm = () => {
                   <option value="User">User</option>
                 </Form.Select>
               </Col>
-              <Col md={6} className="mb-3" controlId="formBasicName">
-                <Form.Label>First Name:</Form.Label>
-                <Form.Control type="text" name="name" value={formData.firstName} onChange={handleChange} required />
-              </Col>
-              <Col md={6} className="mb-3" controlId="formBasicName">
-                <Form.Label>Middle Name:</Form.Label>
-                <Form.Control type="text" name="name" value={formData.middleName} onChange={handleChange} required />
-              </Col>
-              <Col md={6} className="mb-3" controlId="formBasicName">
-                <Form.Label>Last Name:</Form.Label>
-                <Form.Control type="text" name="name" value={formData.lastName} onChange={handleChange} required />
-              </Col>
-            </Row>
-            <Row>
               <Col md={6} className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email:</Form.Label>
                 <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
               </Col>
+              </Row>
+              <Row>
+                <Col md={6} className="mb-3" controlId="formBasicName">
+                    <Form.Label>First Name:</Form.Label>
+                    <Form.Control type="text" name="name" value={formData.firstName} onChange={handleChange} required />
+                </Col>
+                <Col md={6} className="mb-3" controlId="formBasicName">
+                    <Form.Label>Middle Name:</Form.Label>
+                    <Form.Control type="text" name="name" value={formData.middleName} onChange={handleChange} required />
+                </Col>
+                <Col md={6} className="mb-3" controlId="formBasicName">
+                    <Form.Label>Last Name:</Form.Label>
+                    <Form.Control type="text" name="name" value={formData.lastName} onChange={handleChange} required />
+                </Col>
+              </Row>
+            <Row>
               <Col md={6} className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password:</Form.Label>
                 <Form.Control
@@ -153,6 +155,14 @@ const RegistrationForm = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  required
+                />
+              </Col>
+              <Col md={6} className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Confirm Password:</Form.Label>
+                <Form.Control
+                  type="confirmPassword"
+                  name="confirmPassword"
                   required
                 />
               </Col>
