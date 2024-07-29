@@ -41,13 +41,13 @@ function Navigation() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {!isRegisterPath && (
+              {/* {!isRegisterPath && (
                 <>
                   <LinkContainer to="/search">
                     <Nav.Link className="nav-center" style={{ color: "#cfcfcf" }}>Search</Nav.Link>
                   </LinkContainer>
                 </>
-              )}
+              )} */}
               {user && (
                 <NavDropdown
                   title={
