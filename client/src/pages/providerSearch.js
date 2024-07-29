@@ -576,7 +576,7 @@ const handleSubmit = async (e) => {
         <Col md={5}>
           <h4>{provider.providerName}</h4>
           {provider.phones.map((phone, index) => (
-            <p key={index}><strong>Phone:</strong> {phone.phoneNumber}</p>
+            <p key={index}><strong>Phone {phone.phoneType}</strong> {phone.phoneNumber}</p>
           ))}
           {provider.notes.map((notes, index) => (
             <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
@@ -586,10 +586,13 @@ const handleSubmit = async (e) => {
           {provider.addresses.map((address) => (
             <div key={address.addressID}>
               <p><strong>Address:</strong></p>
-              <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
+              <p>
+                {address.addressNo === 1 ? 'Mailing' : address.addressNo === 2 ? 'Primary' : 'Other'}: {address.city}, {address.state}, {address.zip}
+              </p>
             </div>
           ))}
         </Col>
+
         <Col md={3}>
           <p><strong>Specialty:</strong> {provider.specialty}</p>
           <p><strong>NPI:</strong> {provider.npi}</p>

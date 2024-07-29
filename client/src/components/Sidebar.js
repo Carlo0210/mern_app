@@ -230,12 +230,12 @@ const Sidebar = () => {
 
       {/* Logout Confirmation Modal */}
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Logout</Modal.Title>
+        <Modal.Header className='titleModal'>
+          <Modal.Title className="modal-title">Logout</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to logout?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+        <Modal.Body className="modal-body">Are you sure you want to logout?</Modal.Body>
+        <Modal.Footer className="modal-footer">
+          <Button variant="outline-secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleLogout}>
