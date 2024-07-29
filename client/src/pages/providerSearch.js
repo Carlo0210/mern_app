@@ -159,7 +159,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
       const selectedState = selectedOption ? selectedOption.value : '';
       setSearchParams({ ...searchParams, [name]: selectedState, city: '' });
   
-      if (selectedState && selectedState !== 'Others') {
+      if (selectedState) {
         try {
           const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
           const cities = citiesResponse.data;
@@ -249,12 +249,14 @@ const handleSubmit = async (e) => {
     { value: 'Others', label: 'Others' }
   ];
   
+  
+
   const cityOptions = searchParams.state && Array.isArray(statesAndCities[searchParams.state])
-    ? statesAndCities[searchParams.state].map(city => ({
-        value: city,
-        label: city
-      }))
-    : [];
+  ? statesAndCities[searchParams.state].map(city => ({
+      value: city,
+      label: city
+    }))
+  : [];
 
   const goToPrevPage = () => {
     if (currentPage > 1) {
@@ -445,25 +447,25 @@ const handleSubmit = async (e) => {
                 />
               </Col>
               <Col md={3}>
-  <Form.Label className="forms">State</Form.Label>
-  <Select
-    name="state"
-    value={searchParams.state ? stateOptions.find(option => option.value === searchParams.state) : ''}
-    onChange={handleSelectChange}
-    options={stateOptions}
-    placeholder="State"
-  />
-</Col>
-<Col md={3}>
-  <Form.Label className="forms">City</Form.Label>
-  <Select
-    name="city"
-    value={searchParams.city ? cityOptions.find(option => option.value === searchParams.city) : ''}
-    onChange={handleSelectChange}
-    options={cityOptions}
-    placeholder="City"
-  />
-</Col>
+                <Form.Label className="forms">State</Form.Label>
+                <Select
+                  name="state"
+                  value={searchParams.state ? stateOptions.find(option => option.value === searchParams.state) : ''}
+                  onChange={handleSelectChange}
+                  options={stateOptions}
+                  placeholder="State"
+                />
+              </Col>
+              <Col md={3}>
+                <Form.Label className="forms">City</Form.Label>
+                <Select
+                  name="city"
+                  value={searchParams.city ? cityOptions.find(option => option.value === searchParams.city) : ''}
+                  onChange={handleSelectChange}
+                  options={cityOptions}
+                  placeholder="City"
+                />
+              </Col>
               <Col md={1} className="text-center">
                 <Button variant="secondary" onClick={handleClear} style={{ marginTop: '30px', backgroundColor: '#133664', borderColor: '#133664', borderRadius: "25px" }}>Clear</Button>
               </Col>
