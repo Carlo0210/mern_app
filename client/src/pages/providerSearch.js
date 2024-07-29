@@ -155,36 +155,26 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
   };
 
   const handleSelectChange = async (selectedOption, { name }) => {
-    const selectedValue = selectedOption ? selectedOption.value : '';
-  
     if (name === 'state') {
-      setSearchParams({ ...searchParams, [name]: selectedValue, city: '' });
+      const selectedState = selectedOption ? selectedOption.value : '';
+      setSearchParams({ ...searchParams, [name]: selectedState, city: '' });
   
-      if (selectedValue === 'Others') {
-        // Handle 'Others' option
-        // This could involve setting a flag or fetching cities not in stateAbbreviations
-        setStatesAndCities(prevState => ({
-          ...prevState,
-          'Others': prevState['Others'] || []
-        }));
-      } else {
-        // Fetch cities for the selected state
+      if (selectedState && selectedState !== 'Others') {
         try {
-          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedValue}`);
+          const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
           const cities = citiesResponse.data;
           setStatesAndCities(prevState => ({
             ...prevState,
-            [selectedValue]: cities
+            [selectedState]: cities
           }));
         } catch (error) {
           console.error('Error fetching cities:', error);
         }
       }
     } else {
-      setSearchParams({ ...searchParams, [name]: selectedValue });
+      setSearchParams({ ...searchParams, [name]: selectedOption ? selectedOption.value : '' });
     }
   };
-  
   
   
   
@@ -455,25 +445,25 @@ const handleSubmit = async (e) => {
                 />
               </Col>
               <Col md={3}>
-                <Form.Label className="forms">State</Form.Label>
-                <Select
-                  name="state"
-                  value={searchParams.state ? stateOptions.find(option => option.value === searchParams.state) : ''}
-                  onChange={handleSelectChange}
-                  options={stateOptions}
-                  placeholder="State"
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="forms">City</Form.Label>
-                <Select
-                  name="city"
-                  value={searchParams.city ? cityOptions.find(option => option.value === searchParams.city) : ''}
-                  onChange={handleSelectChange}
-                  options={cityOptions}
-                  placeholder="City"
-                />
-              </Col>
+  <Form.Label className="forms">State</Form.Label>
+  <Select
+    name="state"
+    value={searchParams.state ? stateOptions.find(option => option.value === searchParams.state) : ''}
+    onChange={handleSelectChange}
+    options={stateOptions}
+    placeholder="State"
+  />
+</Col>
+<Col md={3}>
+  <Form.Label className="forms">City</Form.Label>
+  <Select
+    name="city"
+    value={searchParams.city ? cityOptions.find(option => option.value === searchParams.city) : ''}
+    onChange={handleSelectChange}
+    options={cityOptions}
+    placeholder="City"
+  />
+</Col>
               <Col md={1} className="text-center">
                 <Button variant="secondary" onClick={handleClear} style={{ marginTop: '30px', backgroundColor: '#133664', borderColor: '#133664', borderRadius: "25px" }}>Clear</Button>
               </Col>
