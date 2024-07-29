@@ -404,8 +404,8 @@ const handleSubmit = async (e) => {
   });
   
   const addressLabels = {
-    1: 'Primary',
-    2: 'Mailing'
+    1: 'Mailing',
+    2: 'Primary'
   };
   
   return (
@@ -588,24 +588,32 @@ const handleSubmit = async (e) => {
     return 0;
   })
   .map((phone, index) => (
-    <p key={index}><strong>{phone.phoneType}</strong> {phone.phoneNumber}</p>
-  ))}
-
+    phone.phoneNumber && (
+      <p key={index}><strong>{phone.phoneType}</strong> {phone.phoneNumber}</p>
+    )
+  ))
+}
           {provider.notes.map((notes, index) => (
             <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
           ))}
         </Col>
 
 
-<Col md={4}>
+        <Col md={4}>
   <strong>Address </strong>
-  {provider.addresses.map((address) => (
-    <div key={address.addressID}>
-      <p>
-        <strong>{addressLabels[address.addressID] || 'Other'}</strong>
-      </p>
-      <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
-    </div>
+  {provider.addresses.sort((a, b) => {
+    if (a.addressID === "2" && b.addressID !== "2") return -1;
+    if (a.addressID !== "2" && b.addressID === "2") return 1;
+    return 0;
+  }).map((address) => (
+    (address.addressNo && address.city && address.state && address.zip) && (
+      <div key={address.addressID}>
+        <p>
+          <strong>{addressLabels[address.addressID] || 'Other'}</strong>
+        </p>
+        <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
+      </div>
+    )
   ))}
 </Col>
 
