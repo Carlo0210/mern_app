@@ -326,7 +326,7 @@ useEffect(() => {
   const handleDownloadCSV = () => {
     const headers = [
       "NPI",
-      "providerName",
+      "ProviderName",
       "Gender",
       "NPIType",
       "SoleProprietor",
@@ -337,28 +337,35 @@ useEffect(() => {
       "Primary City",
       "Primary State",
       "Primary Zipcode",
-      "Phone Mailing",
-      "Phone Primary",
+      "Phone",
+      "Phone",
       "Fax Number",
       "Status",
       "Notes"
     ].join(",");
-
+  
     const csvContent = "data:text/csv;charset=utf-8," + headers + "\n" +
       providers.map(provider => {
         const { npi, providerName, gender, npiType, soleProprietor, specialty, addresses, phones, faxes, status, notes } = provider;
-        const mailingAddress = addresses.find(address => address.addresses === 'Mailing');
-        const primaryAddress = addresses.find(address => address.addresses === 'Primary');
-        const mailingCityStr = mailingAddress ? `${mailingAddress.city}` : '';
-        const mailingStateStr = mailingAddress ? `${mailingAddress.state}` : '';
-        const mailingZipCodeStr = mailingAddress ? `${mailingAddress.zip}` : '';
-        const primaryCityStr = primaryAddress ? `${primaryAddress.city}` : '';
-        const primaryStateStr = primaryAddress ? `${primaryAddress.state}` : '';
-        const primaryZipCodeStr = primaryAddress ? `${primaryAddress.zip}` : '';
+  
+        // Assuming the first address is the mailing address and the second is the primary address
+        const mailingAddress = addresses[0];
+        const primaryAddress = addresses[1];
+  
+        const mailingCityStr = mailingAddress ? mailingAddress.city : '';
+        const mailingStateStr = mailingAddress ? mailingAddress.state : '';
+        const mailingZipCodeStr = mailingAddress ? mailingAddress.zip : '';
+  
+        const primaryCityStr = primaryAddress ? primaryAddress.city : '';
+        const primaryStateStr = primaryAddress ? primaryAddress.state : '';
+        const primaryZipCodeStr = primaryAddress ? primaryAddress.zip : '';
+  
         const mailingPhone = phones.find(phone => phone.phoneType === 'Mailing');
         const primaryPhone = phones.find(phone => phone.phoneType === 'Primary');
+  
         const faxNumber = faxes.length > 0 ? faxes[0].faxNumber : '';
-        const noteStr = notes.find(note => note.noteText === noteAttempts.noteText);
+        const noteStr = notes.length > 0 ? notes[0].noteText : ''; // Assuming you want the first note's text
+  
         return [
           npi,
           providerName,
@@ -379,15 +386,14 @@ useEffect(() => {
           noteStr
         ].join(",");
       }).join("\n");
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "providerDetails.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "providerDetails.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
 // eslint-disable-next-line
   const filteredResults = currentResults.filter(provider => {
     return provider.notes.some(note => {
