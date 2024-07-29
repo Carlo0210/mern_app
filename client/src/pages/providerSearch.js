@@ -404,8 +404,8 @@ const handleSubmit = async (e) => {
   });
   
   const addressLabels = {
-    1: 'Mailing',
-    2: 'Primary'
+    1: 'Primary',
+    2: 'Mailing'
   };
   
   return (
@@ -581,9 +581,16 @@ const handleSubmit = async (e) => {
         <Col md={5}>
           <h4>{provider.providerName}</h4>
           <strong>Phone </strong>
-          {provider.phones.map((phone, index) => (
-            <p key={index}><strong>{phone.phoneType}</strong> {phone.phoneNumber}</p>
-          ))}
+{provider.phones
+  .sort((a, b) => {
+    if (a.phoneType === "Primary" && b.phoneType !== "Primary") return -1;
+    if (a.phoneType !== "Primary" && b.phoneType === "Primary") return 1;
+    return 0;
+  })
+  .map((phone, index) => (
+    <p key={index}><strong>{phone.phoneType}</strong> {phone.phoneNumber}</p>
+  ))}
+
           {provider.notes.map((notes, index) => (
             <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
           ))}
