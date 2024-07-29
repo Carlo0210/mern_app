@@ -103,7 +103,8 @@ exports.searchProviders = async (req, res) => {
         // Build the query dynamically based on provided parameters
         const query = {};
         if (providerName) {
-            query.providerName = providerName;
+            // Use a regular expression for case-insensitive matching and start-with logic
+            query.providerName = new RegExp('^' + providerName, 'i');
         }
         if (specialty) {
             query.specialty = specialty;
@@ -122,6 +123,7 @@ exports.searchProviders = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 exports.addProviderNote = async (req, res) => {
     try {
