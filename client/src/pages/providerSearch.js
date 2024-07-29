@@ -404,8 +404,8 @@ const handleSubmit = async (e) => {
   });
   
   const addressLabels = {
-    1: 'Mailing',
-    2: 'Primary'
+    1: 'Primary',
+    2: 'Mailing'
   };
   
   return (
