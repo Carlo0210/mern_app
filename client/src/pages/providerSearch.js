@@ -577,34 +577,29 @@ const handleSubmit = async (e) => {
   {currentResults.map((provider) => (
     <div key={provider._id} className="provider-card">
       <Row>
-      <Col md={5}>
-        <h4>{provider.providerName}</h4>
-        {provider.phones.map((phone, index) => (
-          <p key={index}>
-            <strong>Phone {phone.phoneType}:</strong> {phone.phoneNumber}
-          </p>
-        ))}
-        {provider.notes.map((notes, index) => (
-          <p key={index}>
-            <strong>Note Attempt:</strong> {notes.noteAttempts}
-          </p>
-        ))}
-      </Col>
+        <Col md={5}>
+          <h4>{provider.providerName}</h4>
+          <strong>Phone </strong>
+          {provider.phones.map((phone, index) => (
+            <p key={index}><strong>{phone.phoneType}</strong> {phone.phoneNumber}</p>
+          ))}
+          {provider.notes.map((notes, index) => (
+            <p key={index}><strong>Note attempt:</strong> {notes.noteAttempts}</p>
+          ))}
+        </Col>
 
-      <Col md={4}>
-        {provider.addresses.map((address) => (
-          <div key={address.addressID}>
-            <p>
-              <strong>
-                {addressLabels[address.addressID] || 'Other'} Address:
-              </strong>
-            </p>
-            <p>
-              {address.addressNo}, {address.city}, {address.state}, {address.zip}
-            </p>
-          </div>
-        ))}
-      </Col>
+
+<Col md={4}>
+  <strong>Address </strong>
+  {provider.addresses.map((address) => (
+    <div key={address.addressID}>
+      <p>
+        <strong>{addressLabels[address.addressID] || 'Other'}</strong>
+      </p>
+      <p>{address.addressNo}, {address.city}, {address.state}, {address.zip}</p>
+    </div>
+  ))}
+</Col>
 
         <Col md={3}>
           <p><strong>Specialty:</strong> {provider.specialty}</p>
