@@ -98,37 +98,38 @@ exports.getAllCities = async (req, res) => {
 // providerInformationController.js
 exports.searchProviders = async (req, res) => {
     try {
-        const { providerName, specialty, state, city } = req.query;
-        
-        // Build the query dynamically based on provided parameters
-        const query = {};
-        if (providerName) {
-            if (providerName.includes(' ')) {
-                // If the providerName contains a space, treat it as a full name search
-                query.providerName = new RegExp(providerName, 'i');
-            } else {
-                // If no space, use start-with logic for partial matches
-                query.providerName = new RegExp('^' + providerName, 'i');
-            }
+      const { providerName, specialty, state, city } = req.query;
+      
+      // Build the query dynamically based on provided parameters
+      const query = {};
+      if (providerName) {
+        query.providerName = new RegExp(providerName.includes(' ') ? providerName : `^${providerName}`, 'i');
+      }
+      if (specialty) {
+        query.specialty = specialty;
+      }
+      if (state) {
+        if (state === 'Others') {
+          // If state is "Others", exclude states in stateAbbreviations
+          query['addresses.state'] = { $nin: Object.keys(stateAbbreviations) };
+        } else {
+          // Otherwise, filter by the selected state
+          query['addresses.state'] = state;
         }
-        if (specialty) {
-            query.specialty = specialty;
-        }
-        if (state) {
-            query['addresses.state'] = state;
-        }
-        if (city) {
-            query['addresses.city'] = city;
-        }
-        
-        // Find providers and sort the results alphabetically by providerName, specialty, state, and city
-        const providers = await providerInformation.find(query).sort({ providerName: 1, specialty: 1, 'addresses.state': 1, 'addresses.city': 1 });
-        
-        res.json(providers);
+      }
+      if (city) {
+        query['addresses.city'] = city;
+      }
+      
+      // Find providers and sort the results alphabetically by providerName, specialty, state, and city
+      const providers = await providerInformation.find(query).sort({ providerName: 1, specialty: 1, 'addresses.state': 1, 'addresses.city': 1 });
+      
+      res.json(providers);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
-};
+  };
+  
 
 
 

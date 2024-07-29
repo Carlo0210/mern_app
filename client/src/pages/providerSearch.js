@@ -159,7 +159,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
       const selectedState = selectedOption ? selectedOption.value : '';
       setSearchParams({ ...searchParams, [name]: selectedState, city: '' });
   
-      if (selectedState) {
+      if (selectedState && selectedState !== 'Others') {
         try {
           const citiesResponse = await axios.get(`${backendUrl}/cities/${selectedState}`);
           const cities = citiesResponse.data;
