@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import './Topbar.css';
 
 function Topbar() {
   const [searchValue, setSearchValue] = useState('');

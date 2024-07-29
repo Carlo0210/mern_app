@@ -10,7 +10,6 @@ import {
 import { NavLink } from 'react-router-dom';
 import { useLogoutUserMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
-import "./Sidebar.css";
 import { Modal, Button } from "react-bootstrap";
 
 
