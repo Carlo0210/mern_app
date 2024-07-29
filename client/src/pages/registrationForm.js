@@ -134,15 +134,15 @@ const RegistrationForm = () => {
               </Col>
               </Row>
               <Row>
-                <Col md={6} className="mb-3" controlId="formBasicName">
+                <Col md={3} className="mb-3" controlId="formBasicName">
                     <Form.Label>First Name:</Form.Label>
                     <Form.Control type="text" name="name" value={formData.firstName} onChange={handleChange} required />
                 </Col>
-                <Col md={6} className="mb-3" controlId="formBasicName">
+                <Col md={3} className="mb-3" controlId="formBasicName">
                     <Form.Label>Middle Name:</Form.Label>
                     <Form.Control type="text" name="name" value={formData.middleName} onChange={handleChange} required />
                 </Col>
-                <Col md={6} className="mb-3" controlId="formBasicName">
+                <Col md={3} className="mb-3" controlId="formBasicName">
                     <Form.Label>Last Name:</Form.Label>
                     <Form.Control type="text" name="name" value={formData.lastName} onChange={handleChange} required />
                 </Col>
