@@ -103,7 +103,7 @@ exports.searchProviders = async (req, res) => {
         // Build the query dynamically based on provided parameters
         const query = {};
         if (providerName) {
-            if (providerName.includes(' ')) {
+            if (providerName.includes('')) {
                 // If the providerName contains a space, treat it as a full name search
                 query.providerName = new RegExp(providerName, 'i');
             } else {
