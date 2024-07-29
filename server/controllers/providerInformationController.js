@@ -103,7 +103,7 @@ exports.searchProviders = async (req, res) => {
         // Build the query dynamically based on provided parameters
         const query = {};
         if (providerName) {
-            if (providerName.includes('')) {
+            if (providerName.includes(' ')) {
                 // If the providerName contains a space, treat it as a full name search
                 query.providerName = new RegExp(providerName, 'i');
             } else {
@@ -121,7 +121,8 @@ exports.searchProviders = async (req, res) => {
             query['addresses.city'] = city;
         }
         
-        const providers = await providerInformation.find(query);
+        // Find providers and sort the results alphabetically by providerName, specialty, state, and city
+        const providers = await providerInformation.find(query).sort({ providerName: 1, specialty: 1, 'addresses.state': 1, 'addresses.city': 1 });
         
         res.json(providers);
     } catch (error) {
