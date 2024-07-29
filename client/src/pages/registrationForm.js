@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import botImg from '../assets/bot.jpeg';
-import { TextField, Button, Container, Grid, Typography, Avatar, Input } from '@mui/material';
+import {
+  TextField, Button, Container, Grid, Typography, Avatar, IconButton, CircularProgress,
+  InputLabel, MenuItem, FormControl, Select, Alert
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const RegistrationForm = () => {
   const users = useSelector((state) => state.user);
@@ -96,112 +100,121 @@ const RegistrationForm = () => {
   };
 
   return (
-    <Container>
-      <Grid container justifyContent="center">
-        <Grid item xs={12} md={8}>
-          <form onSubmit={handleSubmit}>
-            <Typography variant="h4" align="center" gutterBottom>
-              Create an account
-            </Typography>
-            <div className="signup-profile-pic__container">
-              <Avatar src={imagePreview || botImg} alt="" sx={{ width: 100, height: 100 }} />
-              <label htmlFor="image-upload" className="image-upload-label">
-                <Input type="file" id="image-upload" hidden accept="image/png, image/jpeg" onChange={validateImg} />
-              </label>
-            </div>
-            {error && <Typography color="error">{error}</Typography>}
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="User Type"
-                  name="userType"
-                  value={formData.userType}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  disabled
-                >
-                  <option value="">Select User Type</option>
-                  <option value="Admin">Admin</option>
-                  <option value="User">User</option>
-                </TextField>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <TextField
-                  label="First Name"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <TextField
-                  label="Middle Name"
-                  name="middleName"
-                  value={formData.middleName}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <TextField
-                  label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  type="password"
-                  fullWidth
-                  required
-                />
-              </Grid>
+    <Container maxWidth="sm">
+      <Typography variant="h4" align="center" gutterBottom>
+        Create an Account
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} container justifyContent="center">
+            <Avatar src={imagePreview || botImg} sx={{ width: 100, height: 100 }} />
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="image-upload"
+              type="file"
+              onChange={validateImg}
+            />
+            <label htmlFor="image-upload">
+              <IconButton color="primary" aria-label="upload picture" component="span">
+                <PhotoCamera />
+              </IconButton>
+            </label>
+          </Grid>
+          {error && (
+            <Grid item xs={12}>
+              <Alert severity="error">{error}</Alert>
             </Grid>
-            <div className="mb-3" style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-              <Button
-                variant="contained"
-                type="submit"
-                style={{ borderRadius: 35, fontWeight: 'bold', backgroundColor: 'green', color: 'white' }}
+          )}
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel>User Type</InputLabel>
+              <Select
+                name="userType"
+                value={formData.userType}
+                onChange={handleChange}
+                required
+                disabled
               >
-                {uploadingImg ? "Saving..." : "Save"}
-              </Button>
-            </div>
-          </form>
+                <MenuItem value="">Select User Type</MenuItem>
+                <MenuItem value="Admin">Admin</MenuItem>
+                <MenuItem value="User">User</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="First Name"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Middle Name"
+              name="middleName"
+              value={formData.middleName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Last Name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Confirm Password"
+              name="confirmPassword"
+              type="password"
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ borderRadius: 35, fontWeight: 'bold', backgroundColor: 'green', color: 'white', mt: 2 }}
+              disabled={uploadingImg}
+            >
+              {uploadingImg ? <CircularProgress size={24} /> : "Save"}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      </form>
     </Container>
   );
 };
