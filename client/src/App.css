@@ -259,7 +259,7 @@ body {
 
 /* Apply styles on mouse hover */
 .CDBSidebarMenuItem:hover {
-  background-color: #555; /* Change background color on hover */
+  background-color: #11315a; /* Change background color on hover */
   border-color: #fff; /* Change border color on hover */
   border-radius: 25px; /* Optional: Add border-radius to make it look nicer */
 }
@@ -268,7 +268,7 @@ body {
 /* this is a recreation of twitter search in css */
 .form {
   --input-text-color: #fff;
-  --input-bg-color: #283542;
+  --input-bg-color: #11315a;
   --focus-input-bg-color: transparent;
   --text-color: #949faa;
   --active-color: #1b9bee;
