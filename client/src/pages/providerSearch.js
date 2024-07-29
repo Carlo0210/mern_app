@@ -197,30 +197,33 @@ useEffect(() => {
 }, [searchParams.state, statesAndCities]);
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setSearchSubmitted(true);
-    setSearchSummaryParams(searchParams);
-    setProviders([]);
-    setHasSearched(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setSearchSubmitted(true);
+  setSearchSummaryParams(searchParams);
+  setProviders([]);
+  setHasSearched(true);
 
-    try {
-      let response;
-      if (searchParams.npi) {
-        response = await axios.get(`${backendUrl}/providers/${searchParams.npi}`);
-        setProviders([response.data]);
-      } else {
-        response = await axios.get(`${backendUrl}/providers`, { params: searchParams });
-        setProviders(response.data);
-      }
-      setTotalPages(Math.ceil(response.data.length / itemsPerPage));
-      setCurrentPage(1);
-    } catch (error) {
-      console.error('Error fetching providers:', error);
+  try {
+    let response;
+    if (searchParams.npi) {
+      response = await axios.get(`${backendUrl}/providers/${searchParams.npi}`);
+      setProviders([response.data]);
+    } else {
+      response = await axios.get(`${backendUrl}/providers`, { params: searchParams });
+      // Sort the providers alphabetically by name
+      const sortedProviders = response.data.sort((a, b) => a.name.localeCompare(b.name));
+      setProviders(sortedProviders);
     }
-    setLoading(false);
-  };
+    setTotalPages(Math.ceil(response.data.length / itemsPerPage));
+    setCurrentPage(1);
+  } catch (error) {
+    console.error('Error fetching providers:', error);
+  }
+  setLoading(false);
+};
+
 
   const paginationSummary = hasSearched ? `Displaying ${currentRecordRange.start} - ${currentRecordRange.end} of ${totalRecords} records` : '';
 
