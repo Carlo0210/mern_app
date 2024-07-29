@@ -37,7 +37,7 @@ function Topbar() {
       </Box>
       {/* ICONS */}
       <Box display="flex">
-        <h4 style={{color: '#fff'}}>Web-Based Face Recognition System for Monitoring Event Attendance at TSU-CCS AVR</h4>
+        <h4 style={{color: '#fff'}}>Altrust Services</h4>
       </Box>
     </Box>
   );

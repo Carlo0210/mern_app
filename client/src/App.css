@@ -1,6 +1,3 @@
-.App {
-  text-align: center;
-}
 
 .App-logo {
   height: 40vmin;
@@ -21,11 +18,43 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #bdc3c7 !important;
+  color: white;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the app takes at least the full viewport height */
+}
+
+.Main-Content {
+  flex: 1; /* This will make the Main-Content section occupy all available space in the middle */
+  display: flex;
+}
+
+.content {
+  flex: 1; /* This will make the 'content' section take the available space within the Main-Content */
+  display: flex;
+  flex-direction: column;
+}
+
+.inner-content {
+  flex: 1; /* This will make the 'inner-content' section take the available space within the content section */
+  padding: 20px; /* Add some padding to give some space between the content and the edges */
+  overflow-y: auto; /* Enable vertical scrolling if the content overflows */
 }
 
 body {

@@ -137,7 +137,7 @@ const Sidebar = () => {
                 icon="book"
                 onClick={() => handleMenuItemClick("eventInformation")}
               >
-                Manage Event
+                Manage Provider
               </CDBSidebarMenuItem>
             </NavLink>
 
