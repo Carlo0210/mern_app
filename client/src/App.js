@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import ProviderSearch from "./pages/providerSearch";
+import registrationForm from "./pages/registrationForm";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
 
@@ -22,6 +23,7 @@ function App() {
               <Routes>
                 <Route path="/" element={!user ? <Login /> : <Navigate to="/search" />} />
                 <Route path="/search" element={user ? <ProviderSearch /> : <Navigate to="/" />} />
+                <Route path="/register" element={user ? <registrationForm /> : <Navigate to="/" />} />
               </Routes>
             </div>
           </main>
