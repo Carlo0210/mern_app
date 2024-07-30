@@ -252,11 +252,14 @@ const handleSubmit = async (e) => {
   
 
   const cityOptions = searchParams.state && Array.isArray(statesAndCities[searchParams.state])
-  ? statesAndCities[searchParams.state].map(city => ({
-      value: city,
-      label: city
-    }))
+  ? statesAndCities[searchParams.state]
+      .map(city => ({
+        value: city,
+        label: city
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label))
   : [];
+
 
   const goToPrevPage = () => {
     if (currentPage > 1) {

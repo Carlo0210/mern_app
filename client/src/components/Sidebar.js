@@ -7,11 +7,11 @@ import {
   CDBSidebarMenu,
   CDBSidebarMenuItem,
 } from 'cdbreact';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useLogoutUserMutation } from "../services/appApi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
-
+import { clearUser } from "../features/userSlice";
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
@@ -21,7 +21,9 @@ const Sidebar = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [activeMenuItem, setActiveMenuItem] = useState(""); // State to track the currently clicked menu item
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   // Function to handle browser resize
   const handleResize = () => {
     if (window.innerWidth <= 600) {
@@ -52,20 +54,9 @@ const Sidebar = () => {
 
   async function handleLogout(e) {
     e.preventDefault();
-    try {
-      // Use the appropriate payload for the logout request
-      const payload = {
-        _id: user._id, // Replace this with the correct property name for user ID
-        newMessages: [], // Replace this with the correct property name for newMessages
-      };
-  
-      await logoutUser(payload);
-      // Redirect to the home page or any other page after successful logout
-      window.location.replace("/");
-    } catch (error) {
-      // Handle any errors that occurred during logout
-      console.error("Error logging out:", error);
-    }
+    await logoutUser(user);
+    dispatch(clearUser()); // Clear the user state
+    navigate("/"); // Redirect to home page
   }
 
   // Function to handle menu item click and update the state
